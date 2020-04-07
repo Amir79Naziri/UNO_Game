@@ -33,11 +33,13 @@ public class Turn
             whoIsTurn = numberOfPlayers;
     }
 
-    public void changeTurn (Direction dir, int addToTurn)
+    public void changeTurn (GameDirection dir, int addToTurn)
     {
-        if (dir == Direction.CLOCKWISE)
+        if (dir == null)
+            return;
+        if (dir.getDir () == Direction.CLOCKWISE)
             changeWhoIsTurn (addToTurn);
-        if (dir == Direction.COUNTERCLOCKWISE)
+        if (dir.getDir () == Direction.COUNTERCLOCKWISE)
             changeWhoIsTurn (-addToTurn);
     }
 }
