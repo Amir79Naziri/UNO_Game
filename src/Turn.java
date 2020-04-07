@@ -1,14 +1,23 @@
 public class Turn
 {
+    private static Turn turn = null;
     private int numberOfPlayers;
     private int whoIsTurn;
 
-    public Turn (int numberOfPlayers)
+    private Turn (int numberOfPlayers)
     {
         this.numberOfPlayers = numberOfPlayers;
         whoIsTurn = 0;
     }
 
+    public Turn getInstance (int numberOfPlayers)
+    {
+        if (turn == null)
+        {
+            turn = new Turn (numberOfPlayers);
+        }
+        return turn;
+    }
 
     public int getWhoIsTurn () {
         return whoIsTurn;
