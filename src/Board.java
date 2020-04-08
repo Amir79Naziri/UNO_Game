@@ -12,17 +12,17 @@ public class Board
         return cardOnBoard;
     }
 
+    public Color getColor () {
+        return color;
+    }
+
     public void changeCardOnBoard (Card cardOnBoard)
     {
         this.cardOnBoard = cardOnBoard;
-        changeColor (cardOnBoard);
     }
 
-    private void changeColor (Card cardOnBoard)
+    public void changeColor (Color color)
     {
-        if (cardOnBoard instanceof ColorCard)
-        {
-            color = ((ColorCard) cardOnBoard).getColor ();
-        }
+        this.color = color;
     }
 }

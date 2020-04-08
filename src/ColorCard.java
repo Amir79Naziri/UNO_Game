@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 public abstract class ColorCard
         implements Card
 {
@@ -9,17 +11,18 @@ public abstract class ColorCard
         this.color = color;
     }
 
-    public boolean act (GameDirection dir, Turn turn, Board board,Color color)
+    public boolean act (GameDirection dir, Turn turn, Board board,Color color,
+                        ArrayList<Card> cardsInStorage)
     {
         if (board == null)
             return false;
 
         if (board.getCardOnBoard () instanceof ColorCard)
         {
-            ColorCard colorCard = (ColorCard) board.getCardOnBoard ();
-            if (colorCard.getColor () == this.getColor ())
+            if (board.getColor () == this.getColor ())
             {
                 board.changeCardOnBoard (this);
+                board.changeColor (this.getColor ());
                 return true;
             }
             else return false;

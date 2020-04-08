@@ -1,17 +1,11 @@
 public class WildColorCard extends WildCard
 {
 
-    public boolean act (GameDirection dir, Turn turn, Board board, Color color)
+
+    public void updateTurn (GameDirection dir, Turn turn)
     {
-        return true;
+        if (turn == null)
+            return;
+        turn.changeTurn (dir,1);
     }
-
-
-    public void updateTurn (GameDirection dir, Turn turn) {
-
-    }
-
-
-
-
 }

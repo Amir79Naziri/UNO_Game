@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 public class NumericCard extends ColorCard
 {
     private int number;
@@ -15,31 +17,21 @@ public class NumericCard extends ColorCard
     }
 
 
-    public boolean act (GameDirection dir, Turn turn, Board board,Color color)
+    public boolean act (GameDirection dir, Turn turn, Board board,Color color,
+                        ArrayList<Card> cardsInStorage)
     {
         if (board == null)
             return false;
 
-        if (board.getCardOnBoard () instanceof ColorCard)
-        {
-            ColorCard colorCard = (ColorCard) board.getCardOnBoard ();
-            if (colorCard.getColor () == this.getColor ())
-            {
-                board.changeCardOnBoard (this);
-                return true;
-            }
-            if (colorCard instanceof NumericCard &&
-                    ((NumericCard)colorCard).getNumber () == this.getNumber ())
-            {
-                board.changeCardOnBoard (this);
-                return true;
-            }
-            else
-                return false;
-        }
-        if (board.getCardOnBoard () instanceof WildCard)
+        boolean result = super.act (dir,turn,board,color,cardsInStorage);
+        if (result)
+            return true;
+
+        if (board.getCardOnBoard () instanceof NumericCard &&
+                ((NumericCard)(board.getCardOnBoard ())).getNumber () == this.getNumber ())
         {
             board.changeCardOnBoard (this);
+            board.changeColor (this.getColor ());
             return true;
         }
         else

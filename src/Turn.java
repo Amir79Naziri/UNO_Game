@@ -23,6 +23,7 @@ public class Turn
         return whoIsTurn;
     }
 
+
     private void changeWhoIsTurn (int add)
     {
         whoIsTurn += add;

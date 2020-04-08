@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 public class SkipCard extends ColorCard
 {
     public SkipCard (Color color)
@@ -7,14 +9,16 @@ public class SkipCard extends ColorCard
 
 
 
-    public boolean act (GameDirection dir, Turn turn, Board board, Color color)
+    public boolean act (GameDirection dir, Turn turn, Board board, Color color,
+                        ArrayList<Card> cardsInStorage)
     {
-        boolean result = super.act (dir,turn,board,color);
+        boolean result = super.act (dir,turn,board,color,cardsInStorage);
         if (result)
             return true;
         if (board.getCardOnBoard () instanceof SkipCard)
         {
             board.changeCardOnBoard (this);
+            board.changeColor (this.getColor ());
             return true;
         }
         else

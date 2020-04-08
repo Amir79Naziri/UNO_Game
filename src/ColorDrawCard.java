@@ -1,3 +1,6 @@
+import java.util.ArrayList;
+import java.util.Random;
+
 public class ColorDrawCard extends ColorCard
     implements DrawType
 {
@@ -6,14 +9,16 @@ public class ColorDrawCard extends ColorCard
         super(color);
     }
 
-    public boolean act (GameDirection dir, Turn turn, Board board, Color color)
+    public boolean act (GameDirection dir, Turn turn, Board board, Color color
+            , ArrayList<Card> cardsInStorage)
     {
-        boolean result = super.act (dir, turn, board, color);
+        boolean result = super.act (dir, turn, board, color,cardsInStorage);
         if (result)
             return true;
         if (board.getCardOnBoard () instanceof ColorDrawCard)
         {
             board.changeCardOnBoard (this);
+            board.changeColor (this.getColor ());
             return true;
         }
         else return false;
@@ -28,8 +33,16 @@ public class ColorDrawCard extends ColorCard
     }
 
 
-    public void giveCardToPlayer (GameDirection dir, Turn turn, Board board, Color color)
+    public void giveCardToPlayer (GameDirection dir, Turn turn, Board board, Color color
+            , ArrayList<Card> cardsInStorage)
     {
-
+        Random random = new Random ();
+        Card[] cardsForPlayer = new Card[2];
+        for (int i = 0; i < 2; i++)
+        {
+            int index = random.nextInt (cardsInStorage.size ());
+            cardsForPlayer[i] = cardsInStorage.get (index);
+            cardsInStorage.remove (index);
+        }
     }
 }

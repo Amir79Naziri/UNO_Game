@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 public class ReverseCard extends ColorCard
 
 {
@@ -9,13 +11,15 @@ public class ReverseCard extends ColorCard
 
 
 
-    public boolean act (GameDirection dir, Turn turn, Board board, Color color) {
-        boolean result = super.act (dir, turn, board, color);
+    public boolean act (GameDirection dir, Turn turn, Board board, Color color,
+                        ArrayList<Card> cardsInStorage) {
+        boolean result = super.act (dir, turn, board, color,cardsInStorage);
         if (result)
             return true;
         if (board.getCardOnBoard () instanceof ReverseCard)
         {
             board.changeCardOnBoard (this);
+            board.changeColor (this.getColor ());
             return true;
         }
         else return false;
