@@ -1,8 +1,16 @@
-public interface Card
+public abstract class Card
 {
 
-    boolean act (GameDirection dir, Turn turn, Board board, Color color, Storage storage,
+    public abstract boolean canUse (Board board);
+
+    public abstract boolean use (GameDirection dir, Turn turn, Board board, Color color, Storage storage,
                  Player[] players);
-    void updateTurn (GameDirection dir, Turn turn);
+
+    public void updateTurn (GameDirection dir, Turn turn, int unit)
+    {
+        if (turn == null)
+            return;
+        turn.changeTurn (dir,unit);
+    }
 
 }

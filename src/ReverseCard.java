@@ -10,19 +10,32 @@ public class ReverseCard extends ColorCard
     }
 
 
-
-    public boolean act (GameDirection dir, Turn turn, Board board, Color color, Storage storage,
-                        Player[] players) {
-        boolean result = super.act (dir, turn, board, color,storage,players);
-        if (result)
+    public boolean canUse (Board board)
+    {
+        if (board == null)
+            return false;
+        if (super.canUse (board))
             return true;
-        if (board.getCardOnBoard () instanceof ReverseCard)
+        return board.getCardOnBoard () instanceof ReverseCard;
+    }
+
+    public boolean use (GameDirection dir, Turn turn, Board board, Color color, Storage storage,
+                        Player[] players) {
+
+        if (!canUse (board))
+            return false;
+        if (super.use (dir, turn, board, color, storage, players))
         {
-            board.changeCardOnBoard (this);
-            board.changeColor (this.getColor ());
+            changeDir (dir);
+            updateTurn (dir,turn,1);
             return true;
         }
-        else return false;
+
+        board.changeCardOnBoard (this);
+        board.changeColor (this.getColor ());
+        changeDir (dir);
+        updateTurn (dir,turn,1);
+        return true;
     }
 
 
@@ -33,14 +46,6 @@ public class ReverseCard extends ColorCard
         dir.changeDirection ();
     }
 
-
-    public void updateTurn (GameDirection dir, Turn turn)
-    {
-        if (turn == null)
-            return;
-        changeDir (dir);
-        turn.changeTurn (dir,1);
-    }
 
     public static LinkedList<Card> produceCards ()
     {

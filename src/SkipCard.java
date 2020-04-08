@@ -8,29 +8,32 @@ public class SkipCard extends ColorCard
     }
 
 
+    public boolean canUse (Board board)
+    {
+        if (board == null)
+            return false;
+        if (super.canUse (board))
+            return true;
+        return board.getCardOnBoard () instanceof SkipCard;
+    }
 
-    public boolean act (GameDirection dir, Turn turn, Board board, Color color, Storage storage,
+    public boolean use (GameDirection dir, Turn turn, Board board, Color color, Storage storage,
                         Player[] players)
     {
-        boolean result = super.act (dir,turn,board,color,storage,players);
-        if (result)
-            return true;
-        if (board.getCardOnBoard () instanceof SkipCard)
+        if (!canUse (board))
+            return false;
+        if (super.use (dir, turn, board, color, storage, players))
         {
-            board.changeCardOnBoard (this);
-            board.changeColor (this.getColor ());
+            updateTurn (dir,turn,2);
             return true;
         }
-        else
-            return false;
+
+        board.changeCardOnBoard (this);
+        board.changeColor (this.getColor ());
+        updateTurn (dir,turn,2);
+        return true;
     }
 
-    public void updateTurn (GameDirection dir, Turn turn)
-    {
-        if (turn == null)
-            return;
-        turn.changeTurn (dir,2);
-    }
 
     public static LinkedList<Card> produceCards ()
     {

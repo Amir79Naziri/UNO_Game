@@ -3,35 +3,42 @@ import java.util.LinkedList;
 
 public class ColorDrawCard extends ColorCard
     implements DrawType
+
 {
     private ColorDrawCard (Color color)
     {
         super(color);
     }
 
-    public boolean act (GameDirection dir, Turn turn, Board board, Color color, Storage storage,
-                        Player[] players)
+
+    public boolean canUse (Board board)
     {
-        boolean result = super.act (dir, turn, board, color,storage,players);
-        if (!result)
-        {
-            if (board.getCardOnBoard () instanceof ColorDrawCard)
-            {
-                board.changeCardOnBoard (this);
-                board.changeColor (this.getColor ());
-            }
-            else return false;
-        }
-        giveCardToPlayer (dir, turn, board, color, storage, players);
-        return true;
+        if (board == null)
+            return false;
+        if (super.canUse (board))
+            return true;
+        return board.getCardOnBoard () instanceof ColorDrawCard;
     }
 
-
-    public void updateTurn (GameDirection dir, Turn turn)
+    public boolean use (GameDirection dir, Turn turn, Board board, Color color, Storage storage,
+                        Player[] players)
     {
-        if (turn == null)
-            return;
-        turn.changeTurn (dir,1);
+        if (!canUse (board))
+            return false;
+        if (super.use (dir, turn, board, color, storage, players))
+        {
+            updateTurn (dir, turn,1);
+            giveCardToPlayer (dir, turn, board, color, storage, players);
+            updateTurn (dir, turn,1);
+            return true;
+        }
+
+        board.changeCardOnBoard (this);
+        board.changeColor (this.getColor ());
+        updateTurn (dir, turn,1);
+        giveCardToPlayer (dir, turn, board, color, storage, players);
+        updateTurn (dir, turn,1);
+        return true;
     }
 
 

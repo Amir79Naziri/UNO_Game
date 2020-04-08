@@ -54,4 +54,38 @@ public class Player
         }
         this.setPoint (sum);
     }
+
+    public boolean canUseCard (int index, Board board)
+    {
+        if (!(getCards ().get (index) instanceof  WildCard))
+            return true;
+        for (Card card : getCards ())
+        {
+            if (card instanceof ColorCard && ((ColorCard)card).getColor () == board.getColor ())
+                return false;
+            if (card instanceof NumericCard && board.getCardOnBoard() instanceof NumericCard &&
+                    ((NumericCard)card).getNumber () ==
+                            ((NumericCard)board.getCardOnBoard ()).getNumber ())
+                return false;
+        }
+        return true;
+    }
+
+    public boolean hasWildCard ()
+    {
+        for (Card card : getCards ())
+            if (card instanceof WildCard)
+                return true;
+        return false;
+    }
+
+    public int hasMatchCard (Board board)
+    {
+        for (Card card : getCards ())
+        {
+            if (Board instanceof ColorCard)
+
+        }
+    }
+
 }

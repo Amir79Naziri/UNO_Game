@@ -17,33 +17,33 @@ public class NumericCard extends ColorCard
     }
 
 
-    public boolean act (GameDirection dir, Turn turn, Board board,Color color, Storage storage,
-                        Player[] players)
+    public boolean canUse (Board board)
     {
         if (board == null)
             return false;
-
-        boolean result = super.act (dir,turn,board,color,storage,players);
-        if (result)
+        if (super.canUse (board))
             return true;
 
-        if (board.getCardOnBoard () instanceof NumericCard &&
-                ((NumericCard)(board.getCardOnBoard ())).getNumber () == this.getNumber ())
+        return board.getCardOnBoard () instanceof NumericCard &&
+                ((NumericCard) (board.getCardOnBoard ())).getNumber () == this.getNumber ();
+    }
+
+    public boolean use (GameDirection dir, Turn turn, Board board,Color color, Storage storage,
+                        Player[] players)
+    {
+        if (!canUse (board))
+            return false;
+        if (super.use (dir, turn, board, color, storage, players))
         {
-            board.changeCardOnBoard (this);
-            board.changeColor (this.getColor ());
+            updateTurn (dir,turn,1);
             return true;
         }
-        else
-            return false;
+        board.changeCardOnBoard (this);
+        board.changeColor (this.getColor ());
+        updateTurn (dir,turn,1);
+        return true;
     }
 
-    public void updateTurn (GameDirection dir, Turn turn)
-    {
-        if (turn == null)
-            return;
-        turn.changeTurn (dir,1);
-    }
 
     public static LinkedList<Card> produceCards ()
     {

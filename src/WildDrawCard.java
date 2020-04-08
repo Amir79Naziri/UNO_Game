@@ -7,21 +7,24 @@ public class WildDrawCard extends WildCard
     private WildDrawCard () {}
 
 
-    public boolean act (GameDirection dir, Turn turn, Board board, Color color, Storage storage ,
+    public boolean use (GameDirection dir, Turn turn, Board board, Color color, Storage storage ,
                         Player[] players)
     {
-        if (super.act (dir, turn, board, color, storage,players))
+        if (!canUse (board))
+            return false;
+        if (super.use (dir, turn, board, color, storage, players))
         {
             giveCardToPlayer (dir, turn, board, color, storage, players);
+            updateTurn (dir,turn,1);
             return true;
         }
-        else return false;
-    }
 
-    public void updateTurn (GameDirection dir, Turn turn) {
-        if (turn == null)
-            return;
-        turn.changeTurn (dir,1);
+        board.changeCardOnBoard (this);
+        board.changeColor (color);
+        updateTurn (dir,turn,1);
+        giveCardToPlayer (dir, turn, board, color, storage, players);
+        updateTurn (dir,turn,1);
+        return true;
     }
 
 

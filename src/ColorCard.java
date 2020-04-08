@@ -1,7 +1,6 @@
 import java.util.LinkedList;
 
-public abstract class ColorCard
-        implements Card
+public abstract class ColorCard extends Card
 {
     private Color color;
 
@@ -11,24 +10,26 @@ public abstract class ColorCard
         this.color = color;
     }
 
-
-    public boolean act (GameDirection dir, Turn turn, Board board,Color color,
-                        Storage storage, Player[] players)
+    public boolean canUse (Board board)
     {
         if (board == null)
             return false;
 
         if (board.getCardOnBoard () instanceof ColorCard)
         {
-            if (board.getColor () == this.getColor ())
-            {
-                board.changeCardOnBoard (this);
-                board.changeColor (this.getColor ());
-                return true;
-            }
-            else return false;
+            return board.getColor () == this.getColor ();
         }
-        else return false;
+        return false;
+    }
+
+    public boolean use (GameDirection dir, Turn turn, Board board,Color color,
+                        Storage storage, Player[] players)
+    {
+        if (!canUse (board))
+            return false;
+        board.changeCardOnBoard (this);
+        board.changeColor (this.getColor ());
+        return true;
     }
 
     public Color getColor () {

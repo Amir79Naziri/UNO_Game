@@ -1,20 +1,23 @@
 import java.util.LinkedList;
 
-public abstract class WildCard
-        implements Card
+public abstract class WildCard extends Card
 {
 
-    public boolean act (GameDirection dir, Turn turn, Board board, Color color, Storage storage,
+    public boolean canUse (Board board)
+    {
+        return board != null;
+    }
+
+    public boolean use (GameDirection dir, Turn turn, Board board, Color color, Storage storage,
                         Player[] players)
     {
-        if (board == null)
+        if (!canUse (board))
             return false;
         board.changeCardOnBoard (this);
         board.changeColor (color);
+        updateTurn (dir,turn,1);
         return true;
     }
-
-
 
     public static LinkedList<Card> produceCards ()
     {
