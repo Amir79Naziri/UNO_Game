@@ -7,10 +7,10 @@ public class Turn
     private Turn (int numberOfPlayers)
     {
         this.numberOfPlayers = numberOfPlayers;
-        whoIsTurn = 0;
+        whoIsTurn = 1;
     }
 
-    public Turn getInstance (int numberOfPlayers)
+    public static Turn getInstance (int numberOfPlayers)
     {
         if (turn == null)
         {

@@ -1,4 +1,4 @@
-import java.util.ArrayList;
+import java.util.LinkedList;
 
 public abstract class ColorCard
         implements Card
@@ -11,8 +11,9 @@ public abstract class ColorCard
         this.color = color;
     }
 
+
     public boolean act (GameDirection dir, Turn turn, Board board,Color color,
-                        ArrayList<Card> cardsInStorage)
+                        Storage storage)
     {
         if (board == null)
             return false;
@@ -30,9 +31,18 @@ public abstract class ColorCard
         else return false;
     }
 
-
     public Color getColor () {
         return color;
+    }
+
+    public static LinkedList<Card> produceCards ()
+    {
+        LinkedList<Card> cards = new LinkedList<> ();
+        cards.addAll (NumericCard.produceCards ()); // adding numeric
+        cards.addAll (ReverseCard.produceCards ()); // adding reverse
+        cards.addAll (SkipCard.produceCards ()); // adding skip
+        cards.addAll (ColorDrawCard.produceCards ()); // colorDrawCard
+        return cards;
     }
 
 }

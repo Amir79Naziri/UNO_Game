@@ -1,11 +1,10 @@
-import java.util.ArrayList;
+import java.util.LinkedList;
 
 public abstract class WildCard
         implements Card
 {
 
-    public boolean act (GameDirection dir, Turn turn, Board board, Color color,
-                        ArrayList<Card> cardsInStorage)
+    public boolean act (GameDirection dir, Turn turn, Board board, Color color, Storage storage)
     {
         if (board == null)
             return false;
@@ -19,5 +18,13 @@ public abstract class WildCard
         if (board == null)
             return;
         board.changeColor (color);
+    }
+
+    public static LinkedList<Card> produceCards ()
+    {
+        LinkedList<Card> cards = new LinkedList<> ();
+        cards.addAll (WildColorCard.produceCards ()); // wildColor
+        cards.addAll (WildDrawCard.produceCards ()); // wildDraw
+        return cards;
     }
 }

@@ -1,15 +1,15 @@
-import java.util.ArrayList;
-import java.util.Random;
+import java.util.LinkedList;
+
 
 public class WildDrawCard extends WildCard
     implements DrawType
 {
-    public boolean act (GameDirection dir, Turn turn, Board board, Color color,
-                        ArrayList<Card> cardsInStorage)
+    private WildDrawCard () {}
+    public boolean act (GameDirection dir, Turn turn, Board board, Color color, Storage storage)
     {
-        if (super.act (dir, turn, board, color, cardsInStorage))
+        if (super.act (dir, turn, board, color, storage))
         {
-            giveCardToPlayer (dir,turn,board,color,cardsInStorage);
+            giveCardToPlayer (dir,turn,board,color,storage);
             return true;
         }
         else return false;
@@ -22,17 +22,19 @@ public class WildDrawCard extends WildCard
         turn.changeTurn (dir,2);
     }
 
-    public void giveCardToPlayer (GameDirection dir, Turn turn, Board board, Color color
-                        , ArrayList<Card> cardsInStorage)
+    public void giveCardToPlayer (GameDirection dir, Turn turn, Board board, Color color, Storage storage)
     {
 
-        Random random = new Random ();
-        Card[] cardsForPlayer = new Card[4];
+    }
+
+    public static LinkedList<Card> produceCards ()
+    {
+        LinkedList<Card> list = new LinkedList<> ();
+
         for (int i = 0; i < 4; i++)
         {
-            int index = random.nextInt (cardsInStorage.size ());
-            cardsForPlayer[i] = cardsInStorage.get (index);
-            cardsInStorage.remove (index);
+            list.add (new WildDrawCard ());
         }
+        return list;
     }
 }

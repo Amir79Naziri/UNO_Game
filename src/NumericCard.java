@@ -1,11 +1,10 @@
-import java.util.ArrayList;
+import java.util.LinkedList;
 
 public class NumericCard extends ColorCard
 {
     private int number;
 
-
-    public NumericCard (Color color, int number)
+    private NumericCard (Color color, int number)
     {
         super(color);
         this.number = number;
@@ -17,13 +16,12 @@ public class NumericCard extends ColorCard
     }
 
 
-    public boolean act (GameDirection dir, Turn turn, Board board,Color color,
-                        ArrayList<Card> cardsInStorage)
+    public boolean act (GameDirection dir, Turn turn, Board board,Color color, Storage storage)
     {
         if (board == null)
             return false;
 
-        boolean result = super.act (dir,turn,board,color,cardsInStorage);
+        boolean result = super.act (dir,turn,board,color,storage);
         if (result)
             return true;
 
@@ -43,5 +41,36 @@ public class NumericCard extends ColorCard
         if (turn == null)
             return;
         turn.changeTurn (dir,1);
+    }
+
+
+    public static LinkedList<Card> produceCards ()
+    {
+        LinkedList<Card> list = new LinkedList<> ();
+
+        for (int i = 0; i < 10; i++)
+        {
+            if (i == 0)
+            {
+                for (int j = 0; j < 1; j++)
+                {
+                    list.add (new NumericCard (Color.BLUE,i));
+                    list.add (new NumericCard (Color.RED,i));
+                    list.add (new NumericCard (Color.GREEN,i));
+                    list.add (new NumericCard (Color.YELLOW,i));
+                }
+            }
+            else
+            {
+                for (int j = 0; j < 2; j++)
+                {
+                    list.add (new NumericCard (Color.BLUE,i));
+                    list.add (new NumericCard (Color.RED,i));
+                    list.add (new NumericCard (Color.GREEN,i));
+                    list.add (new NumericCard (Color.YELLOW,i));
+                }
+            }
+        }
+        return list;
     }
 }

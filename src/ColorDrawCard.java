@@ -1,18 +1,18 @@
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.Random;
 
 public class ColorDrawCard extends ColorCard
     implements DrawType
 {
-    public ColorDrawCard (Color color)
+    private ColorDrawCard (Color color)
     {
         super(color);
     }
 
-    public boolean act (GameDirection dir, Turn turn, Board board, Color color
-            , ArrayList<Card> cardsInStorage)
+    public boolean act (GameDirection dir, Turn turn, Board board, Color color, Storage storage)
     {
-        boolean result = super.act (dir, turn, board, color,cardsInStorage);
+        boolean result = super.act (dir, turn, board, color,storage);
         if (result)
             return true;
         if (board.getCardOnBoard () instanceof ColorDrawCard)
@@ -33,16 +33,24 @@ public class ColorDrawCard extends ColorCard
     }
 
 
-    public void giveCardToPlayer (GameDirection dir, Turn turn, Board board, Color color
-            , ArrayList<Card> cardsInStorage)
+    public void giveCardToPlayer (GameDirection dir, Turn turn, Board board, Color color, Storage storage)
     {
-        Random random = new Random ();
-        Card[] cardsForPlayer = new Card[2];
-        for (int i = 0; i < 2; i++)
-        {
-            int index = random.nextInt (cardsInStorage.size ());
-            cardsForPlayer[i] = cardsInStorage.get (index);
-            cardsInStorage.remove (index);
-        }
+
     }
+
+    public static LinkedList<Card> produceCards ()
+    {
+        LinkedList<Card> list = new LinkedList<> ();
+
+        for (int i = 0; i < 4; i++)
+        {
+            list.add (new ColorDrawCard (Color.YELLOW));
+            list.add (new ColorDrawCard (Color.RED));
+            list.add (new ColorDrawCard (Color.GREEN));
+            list.add (new ColorDrawCard (Color.BLUE));
+        }
+        return list;
+    }
+
+
 }

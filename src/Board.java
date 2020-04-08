@@ -3,9 +3,9 @@ public class Board
     private Card cardOnBoard;
     private Color color;
 
-    public Board (Card cardOnBoard)
+    public Board ()
     {
-        this.cardOnBoard = cardOnBoard;
+        this.cardOnBoard = null;
     }
 
     public Card getCardOnBoard () {
