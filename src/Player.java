@@ -22,18 +22,22 @@ public class Player
         return cards;
     }
 
+
     public void setPoint (int point) {
         this.point = point;
     }
+
 
     public int getPoint () {
         return point;
     }
 
+
     public void removeCard (Card card)
     {
         getCards ().remove (card);
     }
+
 
     public void calculatePoints ()
     {
@@ -55,22 +59,6 @@ public class Player
         this.setPoint (sum);
     }
 
-    public boolean canUseCard (int index, Board board)
-    {
-        if (!(getCards ().get (index) instanceof  WildCard))
-            return true;
-        for (Card card : getCards ())
-        {
-            if (card instanceof ColorCard && ((ColorCard)card).getColor () == board.getColor ())
-                return false;
-            if (card instanceof NumericCard && board.getCardOnBoard() instanceof NumericCard &&
-                    ((NumericCard)card).getNumber () ==
-                            ((NumericCard)board.getCardOnBoard ()).getNumber ())
-                return false;
-        }
-        return true;
-    }
-
     public boolean hasWildCard ()
     {
         for (Card card : getCards ())
@@ -79,13 +67,46 @@ public class Player
         return false;
     }
 
-    public int hasMatchCard (Board board)
+    public boolean canUseWildCard (Board board)
     {
+        if (board == null)
+            return false;
+
         for (Card card : getCards ())
         {
-            if (Board instanceof ColorCard)
-
+            if (card instanceof ColorCard && card.canUse (board))
+                return false;
         }
+        return true;
     }
 
+    public boolean hasMatchCard (Board board)
+    {
+        return !canUseWildCard (board) || hasWildCard ();
+    }
+
+
+    public Card useCard (int index, Board board)
+    {
+        if (getCards ().get (index).canUse (board))
+        {
+            if (getCards ().get (index) instanceof WildCard )
+            {
+                if (canUseWildCard (board))
+                {
+                    Card card = getCards ().get (index);
+                    removeCard (card);
+                    return card;
+                }
+                else return null;
+            }
+            else
+            {
+                Card card = getCards ().get (index);
+                removeCard (card);
+                return card;
+            }
+        }
+        else return null;
+    }
 }

@@ -7,20 +7,6 @@ public class MachinePlayer extends Player
         super(cards);
     }
 
-    private Card doTurn (Board board)
-    {
-        boolean hasMoveCardMath = false;
-        boolean has
-        if (board.getCardOnBoard () instanceof ColorCard)
-        {
-            if (board.getCardOnBoard () instanceof NumericCard)
-            {
 
-            }
-            else
-            {
 
-            }
-        }
-    }
 }

@@ -7,11 +7,5 @@ public class HumanPlayer extends Player
         super(cards);
     }
 
-    public Card doTurn (int index,Board board)
-    {
-        if (canUseWildCard (index,board))
-            return getCards ().get (index);
-        else
-            return null;
-    }
+
 }
