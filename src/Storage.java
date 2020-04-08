@@ -18,6 +18,14 @@ public class Storage
         colorCards.addAll (ColorCard.produceCards ());
     }
 
+    public void addCard (Card card)
+    {
+        cards.add (card);
+        if (card instanceof ColorCard)
+            colorCards.add (card);
+    }
+
+
     public static Storage getInstanceStorage ()
     {
         if (storage == null)

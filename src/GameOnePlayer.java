@@ -3,7 +3,6 @@ import java.util.Random;
 
 public class GameOnePlayer
 {
-    private int numOfPlayer;
     private Turn turn;
     private Player[] players;
     private Storage storage;
@@ -22,7 +21,7 @@ public class GameOnePlayer
 
 
     public int getNumOfPlayer () {
-        return numOfPlayer;
+        return players.length;
     }
 
 
@@ -64,15 +63,21 @@ public class GameOnePlayer
     {
         if (!startGame ())
             return false;
-        while (stopGame ()) {
-            int index = turn.getWhoIsTurn ();
+        while (!stopGame ()) {
+
 
         }
     }
 
     public boolean stopGame ()
     {
-
+        for (Player player : players)
+        {
+            player.calculatePoints ();
+            if (player.getPoint () == 0)
+                return true;
+        }
+        return false;
     }
 
 

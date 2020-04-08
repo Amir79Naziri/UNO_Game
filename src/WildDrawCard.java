@@ -19,7 +19,7 @@ public class WildDrawCard extends WildCard
             return true;
         }
 
-        board.changeCardOnBoard (this);
+        storage.addCard (board.changeCardOnBoard (this));
         board.changeColor (color);
         updateTurn (dir,turn,1);
         giveCardToPlayer (dir, turn, board, color, storage, players);

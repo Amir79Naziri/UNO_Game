@@ -28,7 +28,7 @@ public class SkipCard extends ColorCard
             return true;
         }
 
-        board.changeCardOnBoard (this);
+        storage.addCard (board.changeCardOnBoard (this));
         board.changeColor (this.getColor ());
         updateTurn (dir,turn,2);
         return true;

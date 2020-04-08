@@ -31,7 +31,7 @@ public class ReverseCard extends ColorCard
             return true;
         }
 
-        board.changeCardOnBoard (this);
+        storage.addCard (board.changeCardOnBoard (this));
         board.changeColor (this.getColor ());
         changeDir (dir);
         updateTurn (dir,turn,1);

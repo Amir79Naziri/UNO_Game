@@ -38,7 +38,7 @@ public class NumericCard extends ColorCard
             updateTurn (dir,turn,1);
             return true;
         }
-        board.changeCardOnBoard (this);
+        storage.addCard (board.changeCardOnBoard (this));
         board.changeColor (this.getColor ());
         updateTurn (dir,turn,1);
         return true;

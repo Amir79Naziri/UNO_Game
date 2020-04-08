@@ -16,9 +16,11 @@ public class Board
         return color;
     }
 
-    public void changeCardOnBoard (Card cardOnBoard)
+    public Card changeCardOnBoard (Card cardOnBoard)
     {
+        Card lastCard = this.cardOnBoard;
         this.cardOnBoard = cardOnBoard;
+        return lastCard;
     }
 
     public void changeColor (Color color)

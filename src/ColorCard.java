@@ -27,7 +27,7 @@ public abstract class ColorCard extends Card
     {
         if (!canUse (board))
             return false;
-        board.changeCardOnBoard (this);
+        storage.addCard (board.changeCardOnBoard (this));
         board.changeColor (this.getColor ());
         return true;
     }

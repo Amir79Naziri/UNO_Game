@@ -13,7 +13,7 @@ public abstract class WildCard extends Card
     {
         if (!canUse (board))
             return false;
-        board.changeCardOnBoard (this);
+        storage.addCard (board.changeCardOnBoard (this));
         board.changeColor (color);
         updateTurn (dir,turn,1);
         return true;
