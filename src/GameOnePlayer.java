@@ -1,7 +1,7 @@
 import java.util.LinkedList;
 import java.util.Random;
 
-public class Game
+public class GameOnePlayer
 {
     private int numOfPlayer;
     private Turn turn;
@@ -11,7 +11,7 @@ public class Game
     private GameDirection dir;
 
 
-    public Game (int numOfPlayer)
+    public GameOnePlayer (int numOfPlayer)
     {
         turn = Turn.getInstance (numOfPlayer);
         players = new Player[numOfPlayer];
