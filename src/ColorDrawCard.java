@@ -1,6 +1,5 @@
-import java.util.ArrayList;
 import java.util.LinkedList;
-import java.util.Random;
+
 
 public class ColorDrawCard extends ColorCard
     implements DrawType
@@ -10,18 +9,21 @@ public class ColorDrawCard extends ColorCard
         super(color);
     }
 
-    public boolean act (GameDirection dir, Turn turn, Board board, Color color, Storage storage)
+    public boolean act (GameDirection dir, Turn turn, Board board, Color color, Storage storage,
+                        Player[] players)
     {
-        boolean result = super.act (dir, turn, board, color,storage);
-        if (result)
-            return true;
-        if (board.getCardOnBoard () instanceof ColorDrawCard)
+        boolean result = super.act (dir, turn, board, color,storage,players);
+        if (!result)
         {
-            board.changeCardOnBoard (this);
-            board.changeColor (this.getColor ());
-            return true;
+            if (board.getCardOnBoard () instanceof ColorDrawCard)
+            {
+                board.changeCardOnBoard (this);
+                board.changeColor (this.getColor ());
+            }
+            else return false;
         }
-        else return false;
+        giveCardToPlayer (dir, turn, board, color, storage, players);
+        return true;
     }
 
 
@@ -29,20 +31,26 @@ public class ColorDrawCard extends ColorCard
     {
         if (turn == null)
             return;
-        turn.changeTurn (dir,2);
+        turn.changeTurn (dir,1);
     }
 
 
-    public void giveCardToPlayer (GameDirection dir, Turn turn, Board board, Color color, Storage storage)
+    public void giveCardToPlayer (GameDirection dir, Turn turn, Board board, Color color, Storage storage,
+                                  Player[] players)
     {
-
+        if (turn == null || storage == null)
+            return;
+        turn.changeTurn (dir,1);
+        LinkedList<Card> cards = storage.CardsForPlayer (2);
+        if (cards != null)
+            players[turn.getWhoIsTurn () - 1].addCards (cards);
     }
 
     public static LinkedList<Card> produceCards ()
     {
         LinkedList<Card> list = new LinkedList<> ();
 
-        for (int i = 0; i < 4; i++)
+        for (int i = 0; i < 2; i++)
         {
             list.add (new ColorDrawCard (Color.YELLOW));
             list.add (new ColorDrawCard (Color.RED));

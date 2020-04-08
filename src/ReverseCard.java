@@ -1,4 +1,3 @@
-import java.util.ArrayList;
 import java.util.LinkedList;
 
 public class ReverseCard extends ColorCard
@@ -12,8 +11,9 @@ public class ReverseCard extends ColorCard
 
 
 
-    public boolean act (GameDirection dir, Turn turn, Board board, Color color, Storage storage) {
-        boolean result = super.act (dir, turn, board, color,storage);
+    public boolean act (GameDirection dir, Turn turn, Board board, Color color, Storage storage,
+                        Player[] players) {
+        boolean result = super.act (dir, turn, board, color,storage,players);
         if (result)
             return true;
         if (board.getCardOnBoard () instanceof ReverseCard)
@@ -46,7 +46,7 @@ public class ReverseCard extends ColorCard
     {
         LinkedList<Card> list = new LinkedList<> ();
 
-        for (int i = 0; i < 4; i++)
+        for (int i = 0; i < 2; i++)
         {
             list.add (new ReverseCard (Color.YELLOW));
             list.add (new ReverseCard (Color.RED));

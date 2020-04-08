@@ -4,6 +4,7 @@ public class NumericCard extends ColorCard
 {
     private int number;
 
+
     private NumericCard (Color color, int number)
     {
         super(color);
@@ -16,12 +17,13 @@ public class NumericCard extends ColorCard
     }
 
 
-    public boolean act (GameDirection dir, Turn turn, Board board,Color color, Storage storage)
+    public boolean act (GameDirection dir, Turn turn, Board board,Color color, Storage storage,
+                        Player[] players)
     {
         if (board == null)
             return false;
 
-        boolean result = super.act (dir,turn,board,color,storage);
+        boolean result = super.act (dir,turn,board,color,storage,players);
         if (result)
             return true;
 
@@ -43,7 +45,6 @@ public class NumericCard extends ColorCard
         turn.changeTurn (dir,1);
     }
 
-
     public static LinkedList<Card> produceCards ()
     {
         LinkedList<Card> list = new LinkedList<> ();
@@ -52,13 +53,10 @@ public class NumericCard extends ColorCard
         {
             if (i == 0)
             {
-                for (int j = 0; j < 1; j++)
-                {
-                    list.add (new NumericCard (Color.BLUE,i));
-                    list.add (new NumericCard (Color.RED,i));
-                    list.add (new NumericCard (Color.GREEN,i));
-                    list.add (new NumericCard (Color.YELLOW,i));
-                }
+                list.add (new NumericCard (Color.BLUE,i));
+                list.add (new NumericCard (Color.RED,i));
+                list.add (new NumericCard (Color.GREEN,i));
+                list.add (new NumericCard (Color.YELLOW,i));
             }
             else
             {

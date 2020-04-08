@@ -4,21 +4,17 @@ public abstract class WildCard
         implements Card
 {
 
-    public boolean act (GameDirection dir, Turn turn, Board board, Color color, Storage storage)
+    public boolean act (GameDirection dir, Turn turn, Board board, Color color, Storage storage,
+                        Player[] players)
     {
         if (board == null)
             return false;
         board.changeCardOnBoard (this);
-        getNextColor (dir,turn,board,color);
+        board.changeColor (color);
         return true;
     }
 
-    private void getNextColor (GameDirection dir, Turn turn, Board board, Color color)
-    {
-        if (board == null)
-            return;
-        board.changeColor (color);
-    }
+
 
     public static LinkedList<Card> produceCards ()
     {

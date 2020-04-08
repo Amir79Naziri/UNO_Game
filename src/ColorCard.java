@@ -13,7 +13,7 @@ public abstract class ColorCard
 
 
     public boolean act (GameDirection dir, Turn turn, Board board,Color color,
-                        Storage storage)
+                        Storage storage, Player[] players)
     {
         if (board == null)
             return false;

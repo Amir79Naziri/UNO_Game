@@ -9,9 +9,10 @@ public class SkipCard extends ColorCard
 
 
 
-    public boolean act (GameDirection dir, Turn turn, Board board, Color color, Storage storage)
+    public boolean act (GameDirection dir, Turn turn, Board board, Color color, Storage storage,
+                        Player[] players)
     {
-        boolean result = super.act (dir,turn,board,color,storage);
+        boolean result = super.act (dir,turn,board,color,storage,players);
         if (result)
             return true;
         if (board.getCardOnBoard () instanceof SkipCard)
@@ -35,7 +36,7 @@ public class SkipCard extends ColorCard
     {
         LinkedList<Card> list = new LinkedList<> ();
 
-        for (int i = 0; i < 4; i++)
+        for (int i = 0; i < 2; i++)
         {
             list.add (new SkipCard (Color.YELLOW));
             list.add (new SkipCard (Color.RED));
