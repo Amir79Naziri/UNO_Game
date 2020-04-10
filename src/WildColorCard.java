@@ -3,7 +3,7 @@ import java.util.LinkedList;
 public class WildColorCard extends WildCard
 {
 
-    private WildColorCard () {}
+    public WildColorCard () {}
 
 
     public static LinkedList<Card> produceCards ()

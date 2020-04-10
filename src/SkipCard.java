@@ -2,7 +2,7 @@ import java.util.LinkedList;
 
 public class SkipCard extends ColorCard
 {
-    private SkipCard (Color color)
+    public SkipCard (Color color)
     {
         super(color);
     }

@@ -4,7 +4,7 @@ public class ReverseCard extends ColorCard
 
 {
 
-    private ReverseCard (Color color)
+    public ReverseCard (Color color)
     {
         super(color);
     }

@@ -10,8 +10,34 @@ public class Printer
                 " Of Your cards ");
     }
 
-    public void printCards (LinkedList<Card> playerCards)
+    public void printCardOnBoard (Board board)
     {
+
+        if (board == null)
+            return;
+
+        LinkedList<Card> cards = new LinkedList<> ();
+        cards.add (board.getCardOnBoard ());
+        printMaxSevenCard ("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t   ",cards,false);
+        System.out.print ("\t\t\t\t\t\t\t\t\t\t\t\t\t\t" + "      Board color :");
+        switch (board.getColor ())
+        {
+            case GREEN:  System.out.print ("  " + "\u001b[38;5;34m" + '\u2B1B' + "\u001B[0m" + "  ");
+            break;
+            case YELLOW: System.out.print ("  " + "\u001b[38;5;3m" + '\u2B1B' + "\u001B[0m" + "  ");
+            break;
+            case RED:    System.out.print ("  " + "\u001B[31m" + '\u2B1B' + "\u001B[0m" + "  ");
+            break;
+            case BLUE:   System.out.print ("  " + "\u001B[34m" + '\u2B1B' + "\u001B[0m" + "  ");
+        }
+        System.out.println ("\n");
+    }
+
+    public void printCardsOfPlayer (LinkedList<Card> playerCards)
+    {
+        System.out.println ("________________________________________________________________" +
+                "___________________________________________________________________" +
+                "________________\n\n");
         count = 0;
         if (playerCards == null)
             return;
@@ -25,17 +51,20 @@ public class Printer
             {
                 cards.add (playerCards.get ((7 * i) + j));
             }
-            printMaxSevenCard (cards);
+            printMaxSevenCard ("",cards,true);
         }
         LinkedList<Card> secCards = new LinkedList<> ();
         for (int j = 0; j < notFullSeven; j++)
         {
             secCards.add (playerCards.get ((7 * fullSeven) + j));
         }
-        printMaxSevenCard (secCards);
+        printMaxSevenCard ("",secCards,true);
+        System.out.println ("________________________________________________________________" +
+                "___________________________________________________________________" +
+                "________________\n");
     }
 
-    private void printMaxSevenCard (LinkedList<Card> cards)
+    private void printMaxSevenCard (String dis, LinkedList<Card> cards, boolean showNumber)
     {
         if (cards == null)
             return;
@@ -43,42 +72,21 @@ public class Printer
             return;
         Color[] colors = new Color[cards.size ()];
         String[] type = new String[cards.size ()];
-        int counter = 0;
-        for (Card card : cards)
-        {
-            if (card instanceof WildCard)
-            {
-                if (card instanceof WildDrawCard)
-                    type[counter] = "|     +4      |";
-                else
-                    type[counter] = "|  fourColor  |";
-                colors[counter] = Color.NON_COLOR;
-            }
-            else
-            {
-                colors[counter] = ((ColorCard)card).getColor ();
-
-                if (card instanceof NumericCard)
-                    type[counter] = "|      " + ((NumericCard) card).getNumber () + "      |";
-                if (card instanceof ReverseCard)
-                    type[counter] = "|   reverse   |";
-                if (card instanceof SkipCard)
-                    type[counter] = "|    skip     |";
-                if (card instanceof ColorDrawCard)
-                    type[counter] = "|     +2      |";
-            }
-            counter++;
-        }
+        findColorsAndType (type,colors,cards);
 
         StringBuilder shape = new StringBuilder ();
 
-        addHeaderToShape (shape,colors,cards.size ());
-        addMiddleToShape (shape,colors,cards.size ());
-        addTypeToShape (shape,type,colors,cards.size ());
-        addMiddleToShape (shape,colors,cards.size ());
-        addHeaderToShape (shape,colors,cards.size ());
-        printNumberDownCard (shape,count * 7,cards.size () + count * 7);
-        count++;
+        addHeaderToShape (dis,shape,colors,cards.size ());
+        addMiddleToShape (dis,shape,colors,cards.size ());
+        addTypeToShape (dis,shape,type,colors,cards.size ());
+        addMiddleToShape (dis,shape,colors,cards.size ());
+        addHeaderToShape (dis,shape,colors,cards.size ());
+        if (showNumber)
+        {
+            printNumberDownCard (shape,count * 7,cards.size () + count * 7);
+            count++;
+        }
+
 
         System.out.print (shape.toString ());
         System.out.println ("\n");
@@ -106,32 +114,32 @@ public class Printer
         }
     }
 
-    private void addHeaderToShape (StringBuilder shape, Color[] colors, int size)
+    private void addHeaderToShape (String dis, StringBuilder shape, Color[] colors, int size)
     {
         for (int i = 0; i < size; i++)
         {
             addColorToShape (shape,colors[i]);
-            shape.append ("|$$$$$$$$$$$$$|").append ("\u001B[0m").append ("      ");
+            shape.append (dis).append ("|$$$$$$$$$$$$$|").append ("\u001B[0m").append ("      ");
         }
         shape.append ("\n");
     }
 
-    private void addMiddleToShape (StringBuilder shape, Color[] colors, int size)
+    private void addMiddleToShape (String dis, StringBuilder shape, Color[] colors, int size)
     {
         for (int i = 0; i < size; i++)
         {
             addColorToShape (shape,colors[i]);
-            shape.append ("|             |").append ("\u001B[0m").append ("      ");
+            shape.append (dis).append ("|             |").append ("\u001B[0m").append ("      ");
         }
         shape.append ("\n");
     }
 
-    private void addTypeToShape (StringBuilder shape, String[] type, Color[] colors, int size)
+    private void addTypeToShape (String dis, StringBuilder shape, String[] type, Color[] colors, int size)
     {
         for (int i = 0; i < size; i++)
         {
             addColorToShape (shape,colors[i]);
-            shape.append (type[i]).append ("\u001B[0m").append ("      ");
+            shape.append (dis).append (type[i]).append ("\u001B[0m").append ("      ");
         }
         shape.append ("\n");
     }
@@ -144,5 +152,37 @@ public class Printer
             shape.append ("      (").append (i + 1).append (")            ");
         }
         shape.append ("\n");
+    }
+
+    private void findColorsAndType (String[] type, Color[] colors,LinkedList<Card> cards)
+    {
+        if (cards == null)
+            return;
+        int counter = 0;
+        for (Card card : cards)
+        {
+            if (card instanceof WildCard)
+            {
+                if (card instanceof WildDrawCard)
+                    type[counter] = "|     +4      |";
+                else
+                    type[counter] = "|  fourColor  |";
+                colors[counter] = Color.NON_COLOR;
+            }
+            else
+            {
+                colors[counter] = ((ColorCard)card).getColor ();
+
+                if (card instanceof NumericCard)
+                    type[counter] = "|      " + ((NumericCard) card).getNumber () + "      |";
+                if (card instanceof ReverseCard)
+                    type[counter] = "|   reverse   |";
+                if (card instanceof SkipCard)
+                    type[counter] = "|    skip     |";
+                if (card instanceof ColorDrawCard)
+                    type[counter] = "|     +2      |";
+            }
+            counter++;
+        }
     }
 }

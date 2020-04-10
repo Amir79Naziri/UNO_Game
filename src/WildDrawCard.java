@@ -4,7 +4,7 @@ import java.util.LinkedList;
 public class WildDrawCard extends WildCard
     implements DrawType
 {
-    private WildDrawCard () {}
+    public WildDrawCard () {}
 
 
     public boolean use (GameDirection dir, Turn turn, Board board, Color color, Storage storage ,

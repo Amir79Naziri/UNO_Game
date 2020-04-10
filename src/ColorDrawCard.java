@@ -5,7 +5,7 @@ public class ColorDrawCard extends ColorCard
     implements DrawType
 
 {
-    private ColorDrawCard (Color color)
+    public ColorDrawCard (Color color)
     {
         super(color);
     }
