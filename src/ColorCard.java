@@ -15,11 +15,7 @@ public abstract class ColorCard extends Card
         if (board == null)
             return false;
 
-        if (board.getCardOnBoard () instanceof ColorCard)
-        {
-            return board.getColor () == this.getColor ();
-        }
-        return false;
+        return board.getColor () == this.getColor ();
     }
 
     public boolean use (GameDirection dir, Turn turn, Board board,Color color,

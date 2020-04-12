@@ -27,7 +27,7 @@ public class ColorDrawCard extends ColorCard
             return false;
         if (super.use (dir, turn, board, color, storage, players))
         {
-            updateTurn (dir, turn,1);
+            turn.changeTurn (dir,1);
             giveCardToPlayer (dir, turn, board, color, storage, players);
             updateTurn (dir, turn,1);
             return true;
@@ -35,19 +35,18 @@ public class ColorDrawCard extends ColorCard
 
         storage.addCard (board.changeCardOnBoard (this));
         board.changeColor (this.getColor ());
-        updateTurn (dir, turn,1);
+        turn.changeTurn (dir,1);
         giveCardToPlayer (dir, turn, board, color, storage, players);
         updateTurn (dir, turn,1);
         return true;
     }
 
 
-    public void giveCardToPlayer (GameDirection dir, Turn turn, Board board, Color color, Storage storage,
-                                  Player[] players)
+    public void giveCardToPlayer (GameDirection dir, Turn turn, Board board, Color color,
+                                  Storage storage, Player[] players)
     {
         if (turn == null || storage == null)
             return;
-        turn.changeTurn (dir,1);
         LinkedList<Card> cards = storage.CardsForPlayer (2);
         if (cards != null)
             players[turn.getWhoIsTurn () - 1].addCards (cards);
@@ -66,6 +65,5 @@ public class ColorDrawCard extends ColorCard
         }
         return list;
     }
-
 
 }

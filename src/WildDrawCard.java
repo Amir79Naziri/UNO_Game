@@ -33,7 +33,6 @@ public class WildDrawCard extends WildCard
     {
         if (turn == null || storage == null)
             return;
-        turn.changeTurn (dir,1);
         LinkedList<Card> cards = storage.CardsForPlayer (4);
         if (cards != null)
             players[turn.getWhoIsTurn () - 1].addCards (cards);

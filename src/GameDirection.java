@@ -11,7 +11,7 @@ public class GameDirection
     {
         if (dir == Direction.CLOCKWISE)
             dir = Direction.COUNTERCLOCKWISE;
-        if (dir == Direction.COUNTERCLOCKWISE)
+        else
             dir = Direction.CLOCKWISE;
     }
 

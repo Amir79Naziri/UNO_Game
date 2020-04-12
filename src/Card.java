@@ -3,8 +3,8 @@ public abstract class Card
 
     public abstract boolean canUse (Board board);
 
-    public abstract boolean use (GameDirection dir, Turn turn, Board board, Color color, Storage storage,
-                 Player[] players);
+    public abstract boolean use (GameDirection dir, Turn turn, Board board, Color color,
+                                 Storage storage, Player[] players);
 
     public void updateTurn (GameDirection dir, Turn turn, int unit)
     {

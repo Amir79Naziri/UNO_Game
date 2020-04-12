@@ -8,7 +8,7 @@ public class GameOnePlayer
     private Storage storage;
     private Board board;
     private GameDirection dir;
-
+    private UserInterface userInterface;
 
     public GameOnePlayer (int numOfPlayer)
     {
@@ -17,6 +17,7 @@ public class GameOnePlayer
         storage = Storage.getInstanceStorage ();
         board = new Board ();
         dir = new GameDirection ();
+        userInterface = new UserInterface ();
     }
 
 
@@ -65,40 +66,44 @@ public class GameOnePlayer
         return res1 && res2;
     }
 
-//    public boolean play (UserInterface ui)
-//    {
-//        if (!startGame ())
-//            return false;
-//        while (!stopGame ()) {
-//            Card card;
-//
-//            if (getPlayerWhoIsTurn ().hasMatchCard (board))
-//            {
-//                card = getPlayerWhoIsTurn ().useCard (index,board);
-//            }
-//            else
-//            {
-//                getPlayerWhoIsTurn ().addCards (storage.CardsForPlayer (1));
-//                if (getPlayerWhoIsTurn ().hasMatchCard (board))
-//                {
-//                    card = getPlayerWhoIsTurn ().useCard (index,board);
-//                }
-//                else
-//                {
-//                    turn.changeTurn (dir,1);
-//                    continue;
-//                }
-//            }
-//            if (card == null)
-//                continue;
-//            getPlayerWhoIsTurn ().removeCard (card);
-//            if (card instanceof WildCard)
-//                card.use (dir,turn,board,inputcolor,storage,players);
-//            else
-//                card.use (dir,turn,board,Color.NON_COLOR,storage,players);
-//        }
-//        return true;
-//    }
+    public boolean play ()
+    {
+        if (!startGame ())
+            return false;
+        while (!stopGame ())
+        {
+            Card card;
+
+            if (getPlayerWhoIsTurn ().hasMatchCard (board))
+            {
+                card = getPlayerWhoIsTurn ().useCard (userInterface.showForHumanPlayer (board,
+                        getPlayerWhoIsTurn (),turn,dir)
+                        ,board);
+            }
+            else
+            {
+                getPlayerWhoIsTurn ().addCards (storage.CardsForPlayer (1));
+                if (getPlayerWhoIsTurn ().hasMatchCard (board))
+                {
+                    card = getPlayerWhoIsTurn ().useCard (userInterface.showForHumanPlayer (board,
+                            getPlayerWhoIsTurn (),turn,dir),board);
+                }
+                else
+                {
+                    turn.changeTurn (dir,1);
+                    continue;
+                }
+            }
+            if (card == null)
+                continue;
+            getPlayerWhoIsTurn ().removeCard (card);
+            if (card instanceof WildCard)
+                card.use (dir,turn,board,userInterface.getColor (),storage,players);
+            else
+                card.use (dir,turn,board,Color.NON_COLOR,storage,players);
+        }
+        return true;
+    }
 
     public boolean stopGame ()
     {

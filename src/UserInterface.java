@@ -1,4 +1,3 @@
-import java.util.LinkedList;
 
 public class UserInterface
 {
@@ -11,20 +10,27 @@ public class UserInterface
         reader = new Reader ();
     }
 
-    public void showForHumanPlayer (Board board, Player playerInTurn)
+    public int showForHumanPlayer (Board board, Player playerInTurn, Turn turn, GameDirection dir)
     {
         if (playerInTurn == null)
-            return;
+            return -1;
+        printer.printTurnAndDir (turn,dir);
         printer.printCardOnBoard (board);
         printer.printCardsOfPlayer (playerInTurn.getCards ());
-        reader.getIndexOfChosenCard (playerInTurn,printer);
+        return reader.getIndexOfChosenCard (playerInTurn,printer);
     }
 
-    public void showForMachinePlayer (Board board, Player playerInTurn)
+    public void showForMachinePlayer (Board board, Player playerInTurn, Turn turn, GameDirection dir)
     {
         if (playerInTurn == null)
             return;
+        printer.printTurnAndDir (turn,dir);
         printer.printCardOnBoard (board);
+    }
+
+    public Color getColor ()
+    {
+        return reader.getColor (printer);
     }
 
 }

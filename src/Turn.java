@@ -28,6 +28,7 @@ public class Turn
     {
         whoIsTurn += add;
         whoIsTurn = whoIsTurn % numberOfPlayers;
+        System.out.println (whoIsTurn);
         if (whoIsTurn < 0)
             whoIsTurn *= -1;
         if (whoIsTurn == 0)

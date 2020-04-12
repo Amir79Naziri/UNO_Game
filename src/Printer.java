@@ -10,6 +10,12 @@ public class Printer
                 " Of Your cards ");
     }
 
+    public void printColorGetterMassage ()
+    {
+        System.out.println ("please Choose a Color :" +
+                "\n1)Blue\n)2Red\n3)Green\n4)Yellow");
+    }
+
     public void printCardOnBoard (Board board)
     {
 
@@ -31,6 +37,14 @@ public class Printer
             case BLUE:   System.out.print ("  " + "\u001B[34m" + '\u2B1B' + "\u001B[0m" + "  ");
         }
         System.out.println ("\n");
+    }
+
+    public void printTurnAndDir (Turn turn, GameDirection dir)
+    {
+        if (turn == null)
+            return;
+        System.out.println (dir.getDir ().toString ());
+        System.out.println ("Player" + turn.getWhoIsTurn () + "  turn");
     }
 
     public void printCardsOfPlayer (LinkedList<Card> playerCards)
@@ -165,11 +179,11 @@ public class Printer
             {
                 if (card instanceof WildDrawCard)
                     type[counter] = "|     +4      |";
-                else
+                if (card instanceof WildColorCard)
                     type[counter] = "|  fourColor  |";
                 colors[counter] = Color.NON_COLOR;
             }
-            else
+            if (card instanceof ColorCard)
             {
                 colors[counter] = ((ColorCard)card).getColor ();
 
