@@ -1,7 +1,7 @@
 import java.util.LinkedList;
 import java.util.Random;
 
-public class GameOnePlayer
+public class GameTwoPlayer
 {
     private Turn turn;
     private Player[] players;
@@ -10,7 +10,7 @@ public class GameOnePlayer
     private GameDirection dir;
     private UserInterface userInterface;
 
-    public GameOnePlayer (int numOfPlayer)
+    public GameTwoPlayer (int numOfPlayer)
     {
         turn = Turn.getInstance (numOfPlayer);
         players = new Player[numOfPlayer];
@@ -77,7 +77,7 @@ public class GameOnePlayer
             if (getPlayerWhoIsTurn ().hasMatchCard (board))
             {
                 card = getPlayerWhoIsTurn ().useCard (userInterface.showForHumanPlayer (board,
-                        getPlayerWhoIsTurn (),turn,dir)
+                        getPlayerWhoIsTurn (),turn,dir,players)
                         ,board);
             }
             else
@@ -86,7 +86,7 @@ public class GameOnePlayer
                 if (getPlayerWhoIsTurn ().hasMatchCard (board))
                 {
                     card = getPlayerWhoIsTurn ().useCard (userInterface.showForHumanPlayer (board,
-                            getPlayerWhoIsTurn (),turn,dir),board);
+                            getPlayerWhoIsTurn (),turn,dir,players),board);
                 }
                 else
                 {

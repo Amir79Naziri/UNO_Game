@@ -12,12 +12,19 @@ public class WildDrawCard extends WildCard
     {
         if (!super.canUse (board))
             return false;
+        if (super.use (dir, turn, board, color, storage, players))
+        {
+            giveCardToPlayer (dir, turn, board, color, storage, players);
+            updateTurn (dir,turn,1);
+            return true;
+        }
 
+        storage.addCard (board.changeCardOnBoard (this));
+        board.changeColor (color);
+        updateTurn (dir,turn,1);
         giveCardToPlayer (dir, turn, board, color, storage, players);
         updateTurn (dir,turn,1);
         return true;
-
-
     }
 
 

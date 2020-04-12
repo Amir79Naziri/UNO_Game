@@ -16,6 +16,12 @@ public class Printer
                 "\n1)Blue\n)2Red\n3)Green\n4)Yellow");
     }
 
+    public void printAllSize (Player[] players)
+    {
+        for (Player player : players)
+            System.out.println (player.getCards ().size ());
+    }
+
     public void printCardOnBoard (Board board)
     {
 
@@ -103,8 +109,7 @@ public class Printer
 
 
         System.out.print (shape.toString ());
-        System.out.println ("\n");
-
+        System.out.println ();
     }
 
     private void addColorToShape (StringBuilder shape, Color color)
