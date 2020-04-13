@@ -7,8 +7,11 @@ public class HumanPlayer extends Player
         super (cards);
     }
 
-    public Card useCard (int index, Board board)
+    public Card useCard (UserInterface userInterface, Board board)
     {
+        if (userInterface == null)
+            return null;
+        int index = userInterface.getIndex (this);
         if (getCards ().get (index).canUse (board))
         {
             if (getCards ().get (index) instanceof WildCard )

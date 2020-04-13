@@ -84,4 +84,46 @@ public abstract class Game
         boolean res2 = starterGameForBoard ();
         return res1 && res2;
     }
+
+    public void play ()
+    {
+        if (!startGame ())
+            return;
+        while (!stopGame ())
+        {
+            Card card;
+            if (getPlayerWhoIsTurn ().hasMatchCard (getBoard ()))
+            {
+                getUserInterface ().printGame (getBoard (),getPlayerWhoIsTurn (),getTurn (),
+                        getDir (),getPlayers ());
+                card = getPlayerWhoIsTurn ().useCard (getUserInterface (),getBoard ());
+            }
+            else
+            {
+                getPlayerWhoIsTurn ().addCards (getStorage ().CardsForPlayer (1));
+                if (getPlayerWhoIsTurn ().hasMatchCard (getBoard ()))
+                {
+                    getUserInterface ().printGame (getBoard (),getPlayerWhoIsTurn (),getTurn (),
+                            getDir (),getPlayers ());
+                    card = getPlayerWhoIsTurn ().useCard (getUserInterface (),getBoard ());
+                }
+                else
+                {
+                    getUserInterface ().printGame (getBoard (),getPlayerWhoIsTurn (),getTurn (),
+                            getDir (),getPlayers ());
+                    getTurn ().changeTurn (getDir (),1);
+                    continue;
+                }
+            }
+
+            if (card == null)
+                continue;
+            if (card instanceof WildCard)
+                card.use (getDir (),getTurn (),getBoard (),getUserInterface ().getColor (),
+                        getStorage (),getPlayers ());
+            else
+                card.use (getDir (),getTurn (),getBoard (),Color.NON_COLOR,
+                        getStorage (),getPlayers ());
+        }
+    }
 }

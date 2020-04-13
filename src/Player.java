@@ -85,5 +85,6 @@ public abstract class Player
         return !canUseWildCard (board) || hasWildCard ();
     }
 
-    public abstract Card useCard (int index,Board board);
+
+    public abstract Card useCard (UserInterface userInterface, Board board);
 }

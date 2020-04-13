@@ -7,7 +7,7 @@ public class MachinePlayer extends Player
         super(cards);
     }
 
-    public Card useCard (int index, Board board)
+    public Card useCard (UserInterface userInterface, Board board)
     {
         if (hasMatchCard (board))
         {
