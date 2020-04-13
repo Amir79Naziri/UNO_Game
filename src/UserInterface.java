@@ -28,9 +28,9 @@ public class UserInterface
                 getIndexOfChosenCard (playerInTurn,printer);
     }
 
-    public Color getColor ()
+    public Color getColor (Player playerInTurn)
     {
-        return reader.getColor (printer);
+        return reader.getColor (playerInTurn,printer);
     }
 
 }

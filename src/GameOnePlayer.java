@@ -13,7 +13,7 @@ public class GameOnePlayer extends Game
     public boolean starterGameForPlayers ()
     {
         Random random = new Random ();
-        int indexOfHumanPlayer = random.nextInt (getNumOfPlayer ()) - 1;
+        int indexOfHumanPlayer = random.nextInt (getNumOfPlayer ());
         for (int i = 0; i < getNumOfPlayer (); i++)
         {
             LinkedList<Card> cardsForPlayer = getStorage ().CardsForPlayer (7);

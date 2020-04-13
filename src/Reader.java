@@ -1,3 +1,4 @@
+import java.util.Random;
 import java.util.Scanner;
 
 public class Reader
@@ -22,19 +23,29 @@ public class Reader
             return index;
     }
 
-    public Color getColor (Printer printer)
+    public Color getColor (Player playerInTurn, Printer printer)
     {
         if (printer == null)
             return null;
-        printer.printColorGetterMassage ();
-        int chose = reader.nextInt ();
+        int chose;
+        if (playerInTurn instanceof HumanPlayer)
+        {
+            printer.printColorGetterMassage ();
+            chose = reader.nextInt ();
+        }
+        else
+        {
+            Random random = new Random ();
+            chose = random.nextInt (4) + 1;
+        }
+
         switch (chose)
         {
             case 1 : return Color.BLUE;
             case 2 : return Color.RED;
             case 3 : return Color.GREEN;
             case 4 : return Color.YELLOW;
-            default: return getColor (printer);
+            default: return getColor (playerInTurn,printer);
         }
     }
 }

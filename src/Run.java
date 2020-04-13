@@ -2,9 +2,10 @@
 
 public class Run
 {
-    public static void main (String[] args) {
+    public static void main (String[] args) throws InterruptedException {
 
-        GameMultiPlayer gameMultiPlayer = new GameMultiPlayer (4);
-        gameMultiPlayer.play ();
+        Game gameOnePlayer = new GameOnePlayer (4);
+        gameOnePlayer.play ();
+
     }
 }

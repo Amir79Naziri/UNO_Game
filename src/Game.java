@@ -85,7 +85,7 @@ public abstract class Game
         return res1 && res2;
     }
 
-    public void play ()
+    public void play () throws InterruptedException
     {
         if (!startGame ())
             return;
@@ -96,6 +96,8 @@ public abstract class Game
             {
                 getUserInterface ().printGame (getBoard (),getPlayerWhoIsTurn (),getTurn (),
                         getDir (),getPlayers ());
+                if (getPlayerWhoIsTurn () instanceof MachinePlayer)
+                    Thread.sleep (3000);
                 card = getPlayerWhoIsTurn ().useCard (getUserInterface (),getBoard ());
             }
             else
@@ -105,10 +107,13 @@ public abstract class Game
                 {
                     getUserInterface ().printGame (getBoard (),getPlayerWhoIsTurn (),getTurn (),
                             getDir (),getPlayers ());
+                    if (getPlayerWhoIsTurn () instanceof MachinePlayer)
+                        Thread.sleep (3000);
                     card = getPlayerWhoIsTurn ().useCard (getUserInterface (),getBoard ());
                 }
                 else
                 {
+                    Thread.sleep (3000);
                     getUserInterface ().printGame (getBoard (),getPlayerWhoIsTurn (),getTurn (),
                             getDir (),getPlayers ());
                     getTurn ().changeTurn (getDir (),1);
@@ -119,8 +124,8 @@ public abstract class Game
             if (card == null)
                 continue;
             if (card instanceof WildCard)
-                card.use (getDir (),getTurn (),getBoard (),getUserInterface ().getColor (),
-                        getStorage (),getPlayers ());
+                card.use (getDir (),getTurn (),getBoard (),getUserInterface ().
+                                getColor (getPlayerWhoIsTurn ()), getStorage (),getPlayers ());
             else
                 card.use (getDir (),getTurn (),getBoard (),Color.NON_COLOR,
                         getStorage (),getPlayers ());
