@@ -12,7 +12,7 @@ public class Printer
 
     public void printColorGetterMassage ()
     {
-        System.out.println ("please Choose a Color :" +
+        System.out.println ("please Choose a Color :\n" +
                 "1) " + Color.BLUE.getANSICode () + '\u2B1B' + Color.RESET.getANSICode () + "\n" +
                 "2) " + Color.RED.getANSICode () + '\u2B1B' + Color.RESET.getANSICode () + "\n" +
                 "3) " + Color.GREEN.getANSICode () + '\u2B1B' + Color.RESET.getANSICode () + "\n" +
@@ -42,12 +42,18 @@ public class Printer
         System.out.println ("\n");
     }
 
-    public void printTurnAndDir (Turn turn, GameDirection dir)
+    public void printTurn (Turn turn)
     {
         if (turn == null)
             return;
-        System.out.println (dir.getDir ().toString ());
         System.out.println ("Player" + turn.getWhoIsTurn () + "  turn");
+    }
+
+    public void printDir (GameDirection dir)
+    {
+        if (dir == null)
+            return;
+        System.out.println (dir.getDir ().toString ());
     }
 
     public void printCardsOfPlayer (Player playerInTurn)

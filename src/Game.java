@@ -89,24 +89,43 @@ public abstract class Game
     {
         if (!startGame ())
             return;
+        if (!(getBoard ().getCardOnBoard () instanceof NumericCard))
+        {
+            getUserInterface ().printGame (getBoard (),getPlayerWhoIsTurn (),getTurn (),
+                    getDir (),getPlayers (),true);
+
+            if (getBoard ().getCardOnBoard () instanceof ReverseCard)
+            {
+                Thread.sleep (3000);
+                dir.changeDirection ();
+            }
+            else
+            {
+                getTurn ().changeTurn (getDir (),-1);
+                Thread.sleep (3000);
+                getBoard ().getCardOnBoard ().use (getDir (),getTurn (),getBoard (),Color.NON_COLOR,
+                        getStorage (),getPlayers ());
+            }
+        }
         while (!stopGame ())
         {
             Card card;
             if (getPlayerWhoIsTurn ().hasMatchCard (getBoard ()))
             {
                 getUserInterface ().printGame (getBoard (),getPlayerWhoIsTurn (),getTurn (),
-                        getDir (),getPlayers ());
+                        getDir (),getPlayers (),true);
                 if (getPlayerWhoIsTurn () instanceof MachinePlayer)
                     Thread.sleep (3000);
                 card = getPlayerWhoIsTurn ().useCard (getUserInterface (),getBoard ());
             }
             else
             {
+                Thread.sleep (3000);
                 getPlayerWhoIsTurn ().addCards (getStorage ().CardsForPlayer (1));
                 if (getPlayerWhoIsTurn ().hasMatchCard (getBoard ()))
                 {
                     getUserInterface ().printGame (getBoard (),getPlayerWhoIsTurn (),getTurn (),
-                            getDir (),getPlayers ());
+                            getDir (),getPlayers (),true);
                     if (getPlayerWhoIsTurn () instanceof MachinePlayer)
                         Thread.sleep (3000);
                     card = getPlayerWhoIsTurn ().useCard (getUserInterface (),getBoard ());
@@ -115,7 +134,7 @@ public abstract class Game
                 {
                     Thread.sleep (3000);
                     getUserInterface ().printGame (getBoard (),getPlayerWhoIsTurn (),getTurn (),
-                            getDir (),getPlayers ());
+                            getDir (),getPlayers (),true);
                     getTurn ().changeTurn (getDir (),1);
                     continue;
                 }

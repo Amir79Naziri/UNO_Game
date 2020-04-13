@@ -12,12 +12,14 @@ public class UserInterface
 
 
     public void printGame (Board board, Player playerInTurn, Turn turn,
-                                   GameDirection dir,Player[] players)
+                                   GameDirection dir,Player[] players, boolean showTurn)
     {
         if (playerInTurn == null)
             return;
-        printer.printTurnAndDir (turn,dir);
-//        printer.printAllSize (players);
+        printer.printDir (dir);
+        if (showTurn)
+            printer.printTurn (turn);
+        printer.printAllSize (players);
         printer.printCardOnBoard (board);
         printer.printCardsOfPlayer (playerInTurn);
     }

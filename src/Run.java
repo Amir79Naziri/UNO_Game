@@ -4,8 +4,8 @@ public class Run
 {
     public static void main (String[] args) throws InterruptedException {
 
-        Game gameOnePlayer = new GameOnePlayer (4);
-        gameOnePlayer.play ();
+        Game gameTwoPlayer = new GameMultiPlayer (3);
+        gameTwoPlayer.play ();
 
     }
 }
