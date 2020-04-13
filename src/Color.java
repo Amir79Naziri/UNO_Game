@@ -1,4 +1,4 @@
 public enum Color
 {
-    RED, GREEN, BLUE, YELLOW, NON_COLOR
+    RED, GREEN, BLUE, YELLOW,GRAY,  NON_COLOR
 }

@@ -11,15 +11,18 @@ public class UserInterface
     }
 
     public int showForHumanPlayer (Board board, Player playerInTurn, Turn turn,
-                                   GameDirection dir,Player[] players)
+                                   GameDirection dir,Player[] players, int type)
     {
         if (playerInTurn == null)
             return -1;
         printer.printTurnAndDir (turn,dir);
         printer.printAllSize (players);
         printer.printCardOnBoard (board);
-        printer.printCardsOfPlayer (playerInTurn.getCards ());
-        return reader.getIndexOfChosenCard (playerInTurn,printer);
+        printer.printCardsOfPlayer (playerInTurn);
+        if (type == 1)
+            return reader.getIndexOfChosenCard (playerInTurn,printer);
+        else
+            return -1;
     }
 
     public void showForMachinePlayer (Board board, Player playerInTurn, Turn turn,

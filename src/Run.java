@@ -4,7 +4,7 @@ public class Run
 {
     public static void main (String[] args) {
 
-        GameTwoPlayer gameTwoPlayer = new GameTwoPlayer (4);
-        gameTwoPlayer.play ();
+        GameMultiPlayer gameMultiPlayer = new GameMultiPlayer (4);
+        gameMultiPlayer.play ();
     }
 }

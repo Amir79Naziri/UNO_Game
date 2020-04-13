@@ -13,7 +13,7 @@ public class Printer
     public void printColorGetterMassage ()
     {
         System.out.println ("please Choose a Color :" +
-                "\n1)Blue\n)2Red\n3)Green\n4)Yellow");
+                "\n1)Blue\n2)Red\n3)Green\n4)Yellow");
     }
 
     public void printAllSize (Player[] players)
@@ -30,7 +30,8 @@ public class Printer
 
         LinkedList<Card> cards = new LinkedList<> ();
         cards.add (board.getCardOnBoard ());
-        printMaxSevenCard ("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t   ",cards,false);
+        printMaxSevenCard ("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t   ",cards,false,
+                "");
         System.out.print ("\t\t\t\t\t\t\t\t\t\t\t\t\t\t" + "      Board color :");
         switch (board.getColor ())
         {
@@ -53,14 +54,15 @@ public class Printer
         System.out.println ("Player" + turn.getWhoIsTurn () + "  turn");
     }
 
-    public void printCardsOfPlayer (LinkedList<Card> playerCards)
+    public void printCardsOfPlayer (Player playerInTurn)
     {
         System.out.println ("________________________________________________________________" +
                 "___________________________________________________________________" +
                 "________________\n\n");
         count = 0;
-        if (playerCards == null)
+        if (playerInTurn == null)
             return;
+        LinkedList<Card> playerCards = playerInTurn.getCards ();
         int size = playerCards.size ();
         int fullSeven = size / 7;
         int notFullSeven = size % 7;
@@ -71,28 +73,35 @@ public class Printer
             {
                 cards.add (playerCards.get ((7 * i) + j));
             }
-            printMaxSevenCard ("",cards,true);
+            printMaxSevenCard ("",cards,true,playerInTurn.getClass ().getName ());
         }
         LinkedList<Card> secCards = new LinkedList<> ();
         for (int j = 0; j < notFullSeven; j++)
         {
             secCards.add (playerCards.get ((7 * fullSeven) + j));
         }
-        printMaxSevenCard ("",secCards,true);
+        printMaxSevenCard ("",secCards,true,playerInTurn.getClass ().getName ());
         System.out.println ("________________________________________________________________" +
                 "___________________________________________________________________" +
                 "________________\n");
     }
 
-    private void printMaxSevenCard (String dis, LinkedList<Card> cards, boolean showNumber)
+    private void printMaxSevenCard (String dis, LinkedList<Card> cards, boolean showNumber,
+                                     String playerType)
     {
         if (cards == null)
             return;
         if (cards.size () > 7)
             return;
+
         Color[] colors = new Color[cards.size ()];
         String[] type = new String[cards.size ()];
-        findColorsAndType (type,colors,cards);
+        if (playerType.equals ("MachinePlayer"))
+        {
+            findColorsAndType (type,colors,cards,2);
+        }
+        else
+            findColorsAndType (type,colors,cards,1);
 
         StringBuilder shape = new StringBuilder ();
 
@@ -130,6 +139,8 @@ public class Printer
             case YELLOW:
                 shape.append ("\u001b[38;5;3m");
                 break;
+            case GRAY :
+                shape.append ("\u001b[38;5;8m");
         }
     }
 
@@ -153,7 +164,8 @@ public class Printer
         shape.append ("\n");
     }
 
-    private void addTypeToShape (String dis, StringBuilder shape, String[] type, Color[] colors, int size)
+    private void addTypeToShape (String dis, StringBuilder shape, String[] type, Color[] colors
+            , int size)
     {
         for (int i = 0; i < size; i++)
         {
@@ -173,35 +185,48 @@ public class Printer
         shape.append ("\n");
     }
 
-    private void findColorsAndType (String[] type, Color[] colors,LinkedList<Card> cards)
+    private void findColorsAndType (String[] type, Color[] colors,LinkedList<Card> cards,
+                                    int key)
     {
         if (cards == null)
             return;
         int counter = 0;
-        for (Card card : cards)
+        if (key == 1)
         {
-            if (card instanceof WildCard)
+            for (Card card : cards)
             {
-                if (card instanceof WildDrawCard)
-                    type[counter] = "|     +4      |";
-                if (card instanceof WildColorCard)
-                    type[counter] = "|  fourColor  |";
-                colors[counter] = Color.NON_COLOR;
-            }
-            if (card instanceof ColorCard)
-            {
-                colors[counter] = ((ColorCard)card).getColor ();
+                if (card instanceof WildCard)
+                {
+                    if (card instanceof WildDrawCard)
+                        type[counter] = "|     +4      |";
+                    if (card instanceof WildColorCard)
+                        type[counter] = "|  fourColor  |";
+                    colors[counter] = Color.NON_COLOR;
+                }
+                if (card instanceof ColorCard)
+                {
+                    colors[counter] = ((ColorCard)card).getColor ();
 
-                if (card instanceof NumericCard)
-                    type[counter] = "|      " + ((NumericCard) card).getNumber () + "      |";
-                if (card instanceof ReverseCard)
-                    type[counter] = "|   reverse   |";
-                if (card instanceof SkipCard)
-                    type[counter] = "|    skip     |";
-                if (card instanceof ColorDrawCard)
-                    type[counter] = "|     +2      |";
+                    if (card instanceof NumericCard)
+                        type[counter] = "|      " + ((NumericCard) card).getNumber () + "      |";
+                    if (card instanceof ReverseCard)
+                        type[counter] = "|   reverse   |";
+                    if (card instanceof SkipCard)
+                        type[counter] = "|    skip     |";
+                    if (card instanceof ColorDrawCard)
+                        type[counter] = "|     +2      |";
+                }
+                counter++;
             }
-            counter++;
+        }
+        if (key == 2)
+        {
+            for (int i = 0; i < cards.size (); i++)
+            {
+                colors[counter] = Color.GRAY;
+                type[counter] = "|      X      |";
+                counter++;
+            }
         }
     }
 }
