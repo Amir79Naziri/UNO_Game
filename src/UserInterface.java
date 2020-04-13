@@ -17,7 +17,7 @@ public class UserInterface
         if (playerInTurn == null)
             return;
         printer.printTurnAndDir (turn,dir);
-        printer.printAllSize (players);
+//        printer.printAllSize (players);
         printer.printCardOnBoard (board);
         printer.printCardsOfPlayer (playerInTurn);
     }

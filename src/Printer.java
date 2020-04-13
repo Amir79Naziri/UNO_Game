@@ -13,7 +13,10 @@ public class Printer
     public void printColorGetterMassage ()
     {
         System.out.println ("please Choose a Color :" +
-                "\n1)Blue\n2)Red\n3)Green\n4)Yellow");
+                "1) " + Color.BLUE.getANSICode () + '\u2B1B' + Color.RESET.getANSICode () + "\n" +
+                "2) " + Color.RED.getANSICode () + '\u2B1B' + Color.RESET.getANSICode () + "\n" +
+                "3) " + Color.GREEN.getANSICode () + '\u2B1B' + Color.RESET.getANSICode () + "\n" +
+                "4) " + Color.YELLOW.getANSICode () + '\u2B1B' + Color.RESET.getANSICode () + "\n");
     }
 
     public void printAllSize (Player[] players)
@@ -33,16 +36,9 @@ public class Printer
         printMaxSevenCard ("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t   ",cards,false,
                 "");
         System.out.print ("\t\t\t\t\t\t\t\t\t\t\t\t\t\t" + "      Board color :");
-        switch (board.getColor ())
-        {
-            case GREEN:  System.out.print ("  " + "\u001b[38;5;34m" + '\u2B1B' + "\u001B[0m" + "  ");
-            break;
-            case YELLOW: System.out.print ("  " + "\u001b[38;5;3m" + '\u2B1B' + "\u001B[0m" + "  ");
-            break;
-            case RED:    System.out.print ("  " + "\u001B[31m" + '\u2B1B' + "\u001B[0m" + "  ");
-            break;
-            case BLUE:   System.out.print ("  " + "\u001B[34m" + '\u2B1B' + "\u001B[0m" + "  ");
-        }
+        System.out.print ("  " + board.getColor ().getANSICode () + '\u2B1B' +
+                Color.RESET.getANSICode () + "  ");
+
         System.out.println ("\n");
     }
 
@@ -125,23 +121,7 @@ public class Printer
     {
         if (color == null)
             return;
-        switch (color)
-        {
-            case GREEN:
-                shape.append ("\u001b[38;5;34m");
-                break;
-            case RED:
-                shape.append ("\u001B[31m");
-                break;
-            case BLUE:
-                shape.append ("\u001B[34m");
-                break;
-            case YELLOW:
-                shape.append ("\u001b[38;5;3m");
-                break;
-            case GRAY :
-                shape.append ("\u001b[38;5;8m");
-        }
+        shape.append (color.getANSICode ());
     }
 
     private void addHeaderToShape (String dis, StringBuilder shape, Color[] colors, int size)
@@ -149,7 +129,8 @@ public class Printer
         for (int i = 0; i < size; i++)
         {
             addColorToShape (shape,colors[i]);
-            shape.append (dis).append ("|$$$$$$$$$$$$$|").append ("\u001B[0m").append ("      ");
+            shape.append (dis).append ("|$$$$$$$$$$$$$|").append (Color.RESET.getANSICode ()).
+                    append ("      ");
         }
         shape.append ("\n");
     }
@@ -159,7 +140,8 @@ public class Printer
         for (int i = 0; i < size; i++)
         {
             addColorToShape (shape,colors[i]);
-            shape.append (dis).append ("|             |").append ("\u001B[0m").append ("      ");
+            shape.append (dis).append ("|             |").append (Color.RESET.getANSICode ()).
+                    append ("      ");
         }
         shape.append ("\n");
     }
@@ -170,7 +152,8 @@ public class Printer
         for (int i = 0; i < size; i++)
         {
             addColorToShape (shape,colors[i]);
-            shape.append (dis).append (type[i]).append ("\u001B[0m").append ("      ");
+            shape.append (dis).append (type[i]).append (Color.RESET.getANSICode ()).
+                    append ("      ");
         }
         shape.append ("\n");
     }
