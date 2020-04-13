@@ -25,7 +25,6 @@ public class Storage
             colorCards.add (card);
     }
 
-
     public static Storage getInstanceStorage ()
     {
         if (storage == null)
@@ -36,11 +35,6 @@ public class Storage
     public int getSize ()
     {
         return cards.size ();
-    }
-
-    public int getColorSize ()
-    {
-        return colorCards.size ();
     }
 
 

@@ -4,8 +4,30 @@ public class HumanPlayer extends Player
 {
     public HumanPlayer (LinkedList<Card> cards)
     {
-        super(cards);
+        super (cards);
     }
 
-
+    public Card useCard (int index, Board board)
+    {
+        if (getCards ().get (index).canUse (board))
+        {
+            if (getCards ().get (index) instanceof WildCard )
+            {
+                if (canUseWildCard (board))
+                {
+                    Card card = getCards ().get (index);
+                    removeCard (card);
+                    return card;
+                }
+                else return null;
+            }
+            else
+            {
+                Card card = getCards ().get (index);
+                removeCard (card);
+                return card;
+            }
+        }
+        else return null;
+    }
 }

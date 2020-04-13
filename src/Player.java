@@ -1,6 +1,6 @@
 import java.util.LinkedList;
 
-public class Player
+public abstract class Player
 {
     private int point;
     private LinkedList<Card> cards;
@@ -85,28 +85,5 @@ public class Player
         return !canUseWildCard (board) || hasWildCard ();
     }
 
-
-    public Card useCard (int index, Board board)
-    {
-        if (getCards ().get (index).canUse (board))
-        {
-            if (getCards ().get (index) instanceof WildCard )
-            {
-                if (canUseWildCard (board))
-                {
-                    Card card = getCards ().get (index);
-                    removeCard (card);
-                    return card;
-                }
-                else return null;
-            }
-            else
-            {
-                Card card = getCards ().get (index);
-                removeCard (card);
-                return card;
-            }
-        }
-        else return null;
-    }
+    public abstract Card useCard (int index,Board board);
 }

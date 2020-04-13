@@ -7,6 +7,37 @@ public class MachinePlayer extends Player
         super(cards);
     }
 
+    public Card useCard (int index, Board board)
+    {
+        if (hasMatchCard (board))
+        {
+            if (canUseWildCard (board))
+            {
+                for (Card card : getCards ())
+                    if (card instanceof WildCard)
+                    {
+                        removeCard (card);
+                        return card;
+                    }
 
+            }
+            else
+            {
+                for (Card card : getCards ())
+                    if (!(card instanceof NumericCard) && card.canUse (board))
+                    {
+                        removeCard (card);
+                        return card;
+                    }
 
+                for (Card card : getCards ())
+                    if (card instanceof NumericCard && card.canUse (board))
+                    {
+                        removeCard (card);
+                        return card;
+                    }
+            }
+        }
+        return null;
+    }
 }
