@@ -46,6 +46,12 @@ public class ReverseCard extends ColorCard
         dir.changeDirection ();
     }
 
+    public boolean equals (Object o)
+    {
+        if (!(super.equals (o))) return false;
+        if (o == this) return true;
+        return o instanceof ReverseCard;
+    }
 
     public static LinkedList<Card> produceCards ()
     {

@@ -1,6 +1,7 @@
 import java.util.LinkedList;
 
 
+
 public class WildDrawCard extends WildCard
     implements DrawType
 {
@@ -36,6 +37,13 @@ public class WildDrawCard extends WildCard
         LinkedList<Card> cards = storage.CardsForPlayer (4);
         if (cards != null)
             players[turn.getWhoIsTurn () - 1].addCards (cards);
+    }
+
+    public boolean equals (Object o)
+    {
+        if (!(super.equals (o))) return false;
+        if (o == this) return true;
+        return o instanceof WildDrawCard;
     }
 
     public static LinkedList<Card> produceCards ()

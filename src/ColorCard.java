@@ -32,6 +32,17 @@ public abstract class ColorCard extends Card
         return color;
     }
 
+
+    public boolean equals (Object o)
+    {
+        if (o == this) return true;
+        if (!(o instanceof ColorCard)) return false;
+
+        ColorCard that = (ColorCard)o;
+        return this.getColor () == that.getColor ();
+    }
+
+
     public static LinkedList<Card> produceCards ()
     {
         LinkedList<Card> cards = new LinkedList<> ();

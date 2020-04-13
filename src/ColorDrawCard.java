@@ -52,6 +52,13 @@ public class ColorDrawCard extends ColorCard
             players[turn.getWhoIsTurn () - 1].addCards (cards);
     }
 
+    public boolean equals (Object o)
+    {
+        if (!(super.equals (o))) return false;
+        if (o == this) return true;
+        return o instanceof ColorDrawCard;
+    }
+
     public static LinkedList<Card> produceCards ()
     {
         LinkedList<Card> list = new LinkedList<> ();

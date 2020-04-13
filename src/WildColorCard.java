@@ -6,6 +6,13 @@ public class WildColorCard extends WildCard
     public WildColorCard () {}
 
 
+    public boolean equals (Object o)
+    {
+        if (!(super.equals (o))) return false;
+        if (o == this) return true;
+        return o instanceof WildColorCard;
+    }
+
     public static LinkedList<Card> produceCards ()
     {
         LinkedList<Card> list = new LinkedList<> ();

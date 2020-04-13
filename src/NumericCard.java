@@ -44,6 +44,15 @@ public class NumericCard extends ColorCard
         return true;
     }
 
+    public boolean equals (Object o)
+    {
+        if (!(super.equals (o))) return false;
+        if (o == this) return true;
+        if (!(o instanceof NumericCard)) return false;
+
+        NumericCard that = (NumericCard)o;
+        return this.getNumber () == that.getNumber ();
+    }
 
     public static LinkedList<Card> produceCards ()
     {

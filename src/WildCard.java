@@ -19,6 +19,12 @@ public abstract class WildCard extends Card
         return true;
     }
 
+    public boolean equals (Object o)
+    {
+        if (o == this) return true;
+        return o instanceof WildCard;
+    }
+
     public static LinkedList<Card> produceCards ()
     {
         LinkedList<Card> cards = new LinkedList<> ();

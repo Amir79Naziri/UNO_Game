@@ -38,6 +38,11 @@ public class Storage
         return cards.size ();
     }
 
+    public int getColorSize ()
+    {
+        return colorCards.size ();
+    }
+
 
     public LinkedList<Card> CardsForPlayer (int number)
     {
@@ -62,8 +67,8 @@ public class Storage
         Random random = new Random ();
         int index = random.nextInt (colorCards.size ());
         Card card = colorCards.get (index);
-        colorCards.remove (index);
         cards.remove (card);
+        colorCards.remove (index);
         return card;
     }
 }

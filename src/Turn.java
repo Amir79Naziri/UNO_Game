@@ -1,3 +1,5 @@
+import java.util.Random;
+
 public class Turn
 {
     private static Turn turn = null;
@@ -6,8 +8,9 @@ public class Turn
 
     private Turn (int numberOfPlayers)
     {
+        Random random = new Random ();
         this.numberOfPlayers = numberOfPlayers;
-        whoIsTurn = 1;
+        whoIsTurn = random.nextInt (numberOfPlayers) + 1;
     }
 
     public static Turn getInstance (int numberOfPlayers)

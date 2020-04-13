@@ -35,6 +35,15 @@ public class SkipCard extends ColorCard
     }
 
 
+
+    public boolean equals (Object o)
+    {
+        if (!(super.equals (o))) return false;
+        if (o == this) return true;
+        return o instanceof SkipCard;
+    }
+
+
     public static LinkedList<Card> produceCards ()
     {
         LinkedList<Card> list = new LinkedList<> ();
