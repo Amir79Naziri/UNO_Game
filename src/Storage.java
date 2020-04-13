@@ -63,6 +63,7 @@ public class Storage
         int index = random.nextInt (colorCards.size ());
         Card card = colorCards.get (index);
         colorCards.remove (index);
+        cards.remove (card);
         return card;
     }
 }
