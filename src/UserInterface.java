@@ -17,11 +17,12 @@ public class UserInterface
         if (playerInTurn == null)
             return;
         printer.printDir (dir);
+
+        printer.printCardOnBoard (board);
+        printer.printAllSize (players);
+        printer.printCardsOfPlayer (playerInTurn);
         if (showTurn)
             printer.printTurn (turn);
-        printer.printAllSize (players);
-        printer.printCardOnBoard (board);
-        printer.printCardsOfPlayer (playerInTurn);
     }
 
     public int getIndex (Player playerInTurn)
@@ -35,4 +36,8 @@ public class UserInterface
         return reader.getColor (playerInTurn,printer);
     }
 
+    public void printNoMatch ()
+    {
+        printer.printNoMatchCard ();
+    }
 }

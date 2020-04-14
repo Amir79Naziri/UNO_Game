@@ -10,6 +10,10 @@ public class Printer
                 " Of Your cards ");
     }
 
+    public void printNoMatchCard ()
+    {
+        System.out.println ("No Match Card!");
+    }
     public void printColorGetterMassage ()
     {
         System.out.println ("please Choose a Color :\n" +
@@ -21,8 +25,16 @@ public class Printer
 
     public void printAllSize (Player[] players)
     {
+        if (players == null)
+            return;
+
+        int counter = 1;
         for (Player player : players)
-            System.out.println (player.getCards ().size ());
+        {
+            System.out.print ("Player " + counter + ":" + player.getCards ().size () + "   ");
+            counter++;
+        }
+        System.out.println ();
     }
 
     public void printCardOnBoard (Board board)
@@ -53,14 +65,14 @@ public class Printer
     {
         if (dir == null)
             return;
-        System.out.println (dir.getDir ().toString ());
+        System.out.println ("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t " + dir.getDir ().toString ());
     }
 
     public void printCardsOfPlayer (Player playerInTurn)
     {
         System.out.println ("________________________________________________________________" +
                 "___________________________________________________________________" +
-                "________________\n\n");
+                "________________");
         count = 0;
         if (playerInTurn == null)
             return;
@@ -82,10 +94,11 @@ public class Printer
         {
             secCards.add (playerCards.get ((7 * fullSeven) + j));
         }
-        printMaxSevenCard ("",secCards,true,playerInTurn.getClass ().getName ());
+        if (notFullSeven != 0)
+            printMaxSevenCard ("",secCards,true,playerInTurn.getClass ().getName ());
         System.out.println ("________________________________________________________________" +
                 "___________________________________________________________________" +
-                "________________\n");
+                "________________");
     }
 
     private void printMaxSevenCard (String dis, LinkedList<Card> cards, boolean showNumber,

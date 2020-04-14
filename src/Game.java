@@ -120,8 +120,12 @@ public abstract class Game
             }
             else
             {
+                getUserInterface ().printGame (getBoard (),getPlayerWhoIsTurn (),getTurn (),
+                        getDir (),getPlayers (),true);
+                getUserInterface ().printNoMatch ();
                 Thread.sleep (3000);
                 getPlayerWhoIsTurn ().addCards (getStorage ().CardsForPlayer (1));
+
                 if (getPlayerWhoIsTurn ().hasMatchCard (getBoard ()))
                 {
                     getUserInterface ().printGame (getBoard (),getPlayerWhoIsTurn (),getTurn (),
@@ -132,9 +136,10 @@ public abstract class Game
                 }
                 else
                 {
-                    Thread.sleep (3000);
                     getUserInterface ().printGame (getBoard (),getPlayerWhoIsTurn (),getTurn (),
                             getDir (),getPlayers (),true);
+                    getUserInterface ().printNoMatch ();
+                    Thread.sleep (3000);
                     getTurn ().changeTurn (getDir (),1);
                     continue;
                 }
