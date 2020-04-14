@@ -14,6 +14,7 @@ public class Printer
     {
         System.out.println ("No Match Card!");
     }
+
     public void printColorGetterMassage ()
     {
         System.out.println ("please Choose a Color :\n" +
@@ -51,21 +52,21 @@ public class Printer
         System.out.print ("  " + board.getColor ().getANSICode () + '\u2B1B' +
                 Color.RESET.getANSICode () + "  ");
 
-        System.out.println ("\n");
+        System.out.println ();
     }
 
     public void printTurn (Turn turn)
     {
         if (turn == null)
             return;
-        System.out.println ("Player" + turn.getWhoIsTurn () + "  turn");
+        System.out.print ("Player" + turn.getWhoIsTurn () + "  turn      ");
     }
 
     public void printDir (GameDirection dir)
     {
         if (dir == null)
             return;
-        System.out.println ("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t " + dir.getDir ().toString ());
+        System.out.println (" DIR : " + dir.getDir ().getUniCode ());
     }
 
     public void printCardsOfPlayer (Player playerInTurn)
