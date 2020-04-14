@@ -16,8 +16,12 @@ public class Reader
         if (playerInTurn == null)
             return -1;
         printer.printIndexGivingMassageFromPlayer ();
-        int index = reader.nextInt () - 1;
-        if (index >= playerInTurn.getCards ().size ())
+        String line = reader.nextLine ();
+        int index = -1;
+        if (isValidIndex (line))
+            index = Integer.parseInt (line) - 1;
+
+        if (index >= playerInTurn.getCards ().size () || index < 0)
             return getIndexOfChosenCard (playerInTurn,printer);
         else
             return index;
@@ -27,11 +31,13 @@ public class Reader
     {
         if (printer == null)
             return null;
-        int chose;
+        int chose = -1;
         if (playerInTurn instanceof HumanPlayer)
         {
             printer.printColorGetterMassage ();
-            chose = reader.nextInt ();
+            String line = reader.nextLine ();
+            if (isValidIndex (line))
+                chose = Integer.parseInt (line);
         }
         else
         {
@@ -48,4 +54,15 @@ public class Reader
             default: return getColor (playerInTurn,printer);
         }
     }
+
+    private boolean isValidIndex (String line)
+    {
+        if (line == null)
+            return false;
+        char[] splits = line.trim ().toCharArray ();
+        if (splits.length != 1)
+            return false;
+        return Character.isDigit (splits[0]);
+    }
+
 }
