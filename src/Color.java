@@ -7,7 +7,7 @@ public enum Color
 
     private String uniCode;
 
-    private Color (String uniCode)
+    Color (String uniCode)
     {
         this.uniCode = uniCode;
     }

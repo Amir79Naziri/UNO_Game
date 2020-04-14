@@ -55,7 +55,7 @@ public class Reader
         }
     }
 
-    private boolean isValidIndex (String line)
+    public static boolean isValidIndex (String line)
     {
         if (line == null)
             return false;

@@ -4,7 +4,7 @@ public enum Direction
 
     private String uniCode;
 
-    private Direction (String uniCode)
+    Direction (String uniCode)
     {
         this.uniCode = uniCode;
     }
