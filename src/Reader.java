@@ -59,10 +59,16 @@ public class Reader
     {
         if (line == null)
             return false;
+
         char[] splits = line.trim ().toCharArray ();
-        if (splits.length != 1)
+        int type = splits.length;
+
+        if (type == 1)
+            return Character.isDigit (splits[0]);
+        else if (type == 2)
+            return Character.isDigit (splits[0]) && Character.isDigit (splits[1]);
+        else
             return false;
-        return Character.isDigit (splits[0]);
     }
 
 }

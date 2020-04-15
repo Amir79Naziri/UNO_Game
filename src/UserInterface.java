@@ -1,3 +1,4 @@
+import java.util.LinkedHashMap;
 
 public class UserInterface
 {
@@ -16,6 +17,7 @@ public class UserInterface
     {
         if (playerInTurn == null)
             return;
+        System.out.println ("\n\n\n");
         printer.printCardOnBoard (board);
         printer.printAllSize (players);
         printer.printCardsOfPlayer (playerInTurn);
@@ -39,5 +41,11 @@ public class UserInterface
     public void printNoMatch ()
     {
         printer.printNoMatchCard ();
+    }
+
+
+    public void printEndTable (LinkedHashMap<String,Integer> sortedPlayers)
+    {
+        printer.printEndTable (sortedPlayers);
     }
 }

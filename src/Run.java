@@ -3,7 +3,6 @@ import java.util.Scanner;
 public class Run
 {
     public static void main (String[] args) throws InterruptedException {
-
         System.out.println ("Welcome To UNO");
         System.out.println ("Please Choose The Type Of Game\n" +
                 "1) OnePlayer vs PC\n" +

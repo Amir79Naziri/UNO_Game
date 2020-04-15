@@ -1,4 +1,6 @@
-import java.util.LinkedList;
+import org.w3c.dom.stylesheets.LinkStyle;
+
+import java.util.*;
 
 public class Printer
 {
@@ -14,6 +16,7 @@ public class Printer
     {
         System.out.println ("No Match Card!");
     }
+
 
     public void printColorGetterMassage ()
     {
@@ -33,6 +36,8 @@ public class Printer
         for (Player player : players)
         {
             System.out.print ("Player " + counter + ":" + player.getCards ().size () + "   ");
+            if (counter == 11)
+                System.out.println ();
             counter++;
         }
         System.out.println ();
@@ -67,6 +72,20 @@ public class Printer
         if (dir == null)
             return;
         System.out.println (" DIR : " + dir.getDir ().getUniCode ());
+    }
+
+    public void printEndTable (LinkedHashMap<String,Integer> sortedPlayers)
+    {
+        if (sortedPlayers == null)
+            return;
+        System.out.println ("   Players             |             Score");
+        System.out.println ("---------------------------------------------");
+        for (Map.Entry<String,Integer> a : sortedPlayers.entrySet ())
+        {
+            System.out.println ("   " + a.getKey () + "             |               "
+                    + a.getValue ());
+            System.out.println ("---------------------------------------------");
+        }
     }
 
     public void printCardsOfPlayer (Player playerInTurn)

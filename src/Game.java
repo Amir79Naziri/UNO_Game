@@ -1,3 +1,5 @@
+import java.util.*;
+
 public abstract class Game
 {
     private Turn turn;
@@ -70,7 +72,10 @@ public abstract class Game
         {
             if (player.getCards ().size () == 0)
             {
-                System.out.println ("player" + counter + " won");
+                System.out.println ("\n\n\n\n");
+                System.err.println ("                   player" + counter + " won " +
+                        "                   \n");
+                userInterface.printEndTable (findSortedListOfPlayers ());
                 return true;
             }
             counter++;
@@ -170,5 +175,29 @@ public abstract class Game
             }
 
         }
+    }
+
+    public LinkedHashMap<String,Integer> findSortedListOfPlayers ()
+    {
+        ArrayList<Integer> points = new ArrayList<> ();
+        for (Player player : getPlayers ())
+        {
+            player.calculatePoints ();
+            points.add (player.getPoint ());
+        }
+        Collections.sort (points);
+
+        LinkedHashMap<String,Integer> sortedPlayers = new LinkedHashMap<> ();
+
+        for (Integer point : points)
+        {
+            for (int i = 0; i < getNumOfPlayer (); i++)
+            {
+                if (point.equals (getPlayers ()[i].getPoint ()))
+                    sortedPlayers.put ("Player" + (i + 1),point);
+            }
+        }
+
+        return sortedPlayers;
     }
 }
