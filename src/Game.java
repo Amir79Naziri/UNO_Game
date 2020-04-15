@@ -49,6 +49,10 @@ public abstract class Game
         return turn;
     }
 
+    public SequenceKeeper getSequenceKeeper () {
+        return sequenceKeeper;
+    }
+
     public abstract boolean starterGameForPlayers ();
 
     private boolean starterGameForBoard ()
@@ -67,7 +71,7 @@ public abstract class Game
         return players[index];
     }
 
-    public boolean stopGame ()
+    private boolean stopGame ()
     {
         int counter = 1;
         for (Player player : players)
@@ -85,7 +89,7 @@ public abstract class Game
         return false;
     }
 
-    public boolean startGame ()
+    private boolean startGame ()
     {
         boolean res1 = starterGameForPlayers ();
         boolean res2 = starterGameForBoard ();
@@ -138,7 +142,7 @@ public abstract class Game
         }
     }
 
-    public void boardCardUse () throws InterruptedException
+    private void boardCardUse () throws InterruptedException
     {
         if (!(getBoard ().getCardOnBoard () instanceof NumericCard))
         {
@@ -155,32 +159,33 @@ public abstract class Game
                 getTurn ().changeTurn (getDir (),-1);
                 Thread.sleep (3000);
                 getBoard ().getCardOnBoard ().use (getDir (),getTurn (),getBoard (),Color.NON_COLOR,
-                        getStorage (),getPlayers (),sequenceKeeper);
+                        getStorage (),getPlayers (),getSequenceKeeper ());
             }
         }
     }
 
-    public Card playerGetCard () throws InterruptedException {
+
+    private Card playerGetCard () throws InterruptedException {
         if (getPlayerWhoIsTurn () instanceof MachinePlayer)
             Thread.sleep (3000);
         return getPlayerWhoIsTurn ().useCard (getUserInterface (),getBoard ());
     }
 
 
-    public void useCard (Card card)
+    private void useCard (Card card)
     {
         if (card instanceof WildCard)
         {
             card.use (getDir (),getTurn (),getBoard (),getUserInterface ().
                             getColor (getPlayerWhoIsTurn ()),
-                    getStorage (),getPlayers (),sequenceKeeper);
+                    getStorage (),getPlayers (),getSequenceKeeper ());
         }
         else
             card.use (getDir (),getTurn (),getBoard (),Color.NON_COLOR,
-                    getStorage (),getPlayers (),sequenceKeeper);
+                    getStorage (),getPlayers (),getSequenceKeeper ());
     }
 
-    public LinkedHashMap<String,Integer> findSortedListOfPlayers ()
+    private LinkedHashMap<String,Integer> findSortedListOfPlayers ()
     {
         ArrayList<Integer> points = new ArrayList<> ();
         for (Player player : getPlayers ())

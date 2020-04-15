@@ -44,7 +44,7 @@ public abstract class Player
     }
 
 
-    public void setPoint (int point) {
+    private void setPoint (int point) {
         this.point = point;
     }
 

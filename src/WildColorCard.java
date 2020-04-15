@@ -3,7 +3,7 @@ import java.util.LinkedList;
 public class WildColorCard extends WildCard
 {
 
-    public WildColorCard () {}
+    private WildColorCard () {}
 
 
     public boolean equals (Object o)

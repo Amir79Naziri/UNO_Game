@@ -5,7 +5,7 @@ public class NumericCard extends ColorCard
     private int number;
 
 
-    public NumericCard (Color color, int number)
+    private NumericCard (Color color, int number)
     {
         super(color);
         this.number = number;

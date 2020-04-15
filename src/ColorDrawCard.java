@@ -5,7 +5,7 @@ public class ColorDrawCard extends ColorCard
     implements DrawType
 
 {
-    public ColorDrawCard (Color color)
+    private ColorDrawCard (Color color)
     {
         super(color);
     }
@@ -34,8 +34,8 @@ public class ColorDrawCard extends ColorCard
         turn.changeTurn (dir,1);
         if (!(players[turn.getWhoIsTurn () - 1].hasColorDraw ()))
         {
-            sequence.finishSeqND ();
             giveCardToPlayer (dir, turn, board, color, storage, players,sequence);
+            sequence.finishSeqND ();
             updateTurn (dir, turn,1);
         }
         else
