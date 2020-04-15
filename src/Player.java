@@ -4,13 +4,34 @@ public abstract class Player
 {
     private int point;
     private LinkedList<Card> cards;
+    private boolean shouldUseDraw;
+    private boolean ShouldUseWildDraw;
 
     public Player (LinkedList<Card> cards)
     {
         point = 0;
         this.cards = cards;
+        shouldUseDraw = false;
+        ShouldUseWildDraw = false;
     }
 
+    public boolean isShouldUseDraw ()
+    {
+        return shouldUseDraw;
+    }
+
+    public boolean isShouldUseWildDraw () {
+        return ShouldUseWildDraw;
+    }
+
+    public void setShouldUseDraw (boolean shouldUseDraw) {
+        this.shouldUseDraw = shouldUseDraw;
+    }
+
+    public void setShouldUseWildDraw (boolean shouldUseWildDraw) {
+        ShouldUseWildDraw =
+                shouldUseWildDraw;
+    }
 
     public void addCards (LinkedList<Card> newCards)
     {
@@ -87,4 +108,22 @@ public abstract class Player
 
 
     public abstract Card useCard (UserInterface userInterface, Board board);
+
+
+    public boolean hasColorDraw ()
+    {
+        for (Card card : getCards ())
+            if (card instanceof ColorDrawCard)
+                return true;
+        return false;
+    }
+
+    public boolean hasWildDraw ()
+    {
+        for (Card card : getCards ())
+            if (card instanceof WildDrawCard)
+                return true;
+        return false;
+    }
+
 }

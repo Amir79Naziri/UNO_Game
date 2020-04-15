@@ -17,7 +17,6 @@ public class Printer
         System.out.println ("No Match Card!");
     }
 
-
     public void printColorGetterMassage ()
     {
         System.out.println ("please Choose a Color :\n" +

@@ -12,6 +12,7 @@ public class HumanPlayer extends Player
         if (userInterface == null)
             return null;
         int index = userInterface.getIndex (this);
+
         if (getCards ().get (index).canUse (board))
         {
             if (getCards ().get (index) instanceof WildCard )
@@ -19,16 +20,41 @@ public class HumanPlayer extends Player
                 if (canUseWildCard (board))
                 {
                     Card card = getCards ().get (index);
-                    removeCard (card);
-                    return card;
+                    if (isShouldUseWildDraw ())
+                    {
+                        if (card instanceof WildDrawCard)
+                        {
+                            this.setShouldUseWildDraw (false);
+                            removeCard (card);
+                            return card;
+                        } else return null;
+                    }
+                    else
+                    {
+                        removeCard (card);
+                        return card;
+                    }
                 }
                 else return null;
             }
             else
             {
                 Card card = getCards ().get (index);
-                removeCard (card);
-                return card;
+                if (isShouldUseDraw ())
+                {
+                    if (card instanceof ColorDrawCard)
+                    {
+                        this.setShouldUseDraw (false);
+                        removeCard (card);
+                        return card;
+                    }
+                    else return null;
+                }
+                else
+                {
+                    removeCard (card);
+                    return card;
+                }
             }
         }
         else return null;

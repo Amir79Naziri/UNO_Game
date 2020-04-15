@@ -22,14 +22,13 @@ public class SkipCard extends ColorCard
     {
         if (!canUse (board))
             return false;
-        if (super.use (dir, turn, board, color, storage, players,sequence))
+        if (!(super.use (dir, turn, board, color, storage, players,sequence)))
         {
-            updateTurn (dir,turn,2);
-            return true;
+            storage.addCard (board.changeCardOnBoard (this));
+            board.changeColor (this.getColor ());
         }
 
-        storage.addCard (board.changeCardOnBoard (this));
-        board.changeColor (this.getColor ());
+
         updateTurn (dir,turn,2);
         return true;
     }

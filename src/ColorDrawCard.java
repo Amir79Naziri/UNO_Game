@@ -25,19 +25,20 @@ public class ColorDrawCard extends ColorCard
     {
         if (!canUse (board))
             return false;
-        if (super.use (dir, turn, board, color, storage, players,sequence))
+        if (!(super.use (dir, turn, board, color, storage, players,sequence)))
         {
-            turn.changeTurn (dir,1);
-            giveCardToPlayer (dir, turn, board, color, storage, players,sequence);
-            updateTurn (dir, turn,1);
-            return true;
+            storage.addCard (board.changeCardOnBoard (this));
+            board.changeColor (this.getColor ());
         }
 
-        storage.addCard (board.changeCardOnBoard (this));
-        board.changeColor (this.getColor ());
         turn.changeTurn (dir,1);
-        giveCardToPlayer (dir, turn, board, color, storage, players,sequence);
-        updateTurn (dir, turn,1);
+        if (!(players[turn.getWhoIsTurn () - 1].hasColorDraw ()))
+        {
+            giveCardToPlayer (dir, turn, board, color, storage, players,sequence);
+            updateTurn (dir, turn,1);
+        }
+        else
+            players[turn.getWhoIsTurn () - 1].setShouldUseDraw (true);
         return true;
     }
 

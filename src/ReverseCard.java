@@ -24,15 +24,12 @@ public class ReverseCard extends ColorCard
 
         if (!canUse (board))
             return false;
-        if (super.use (dir, turn, board, color, storage, players,sequence))
+        if (!(super.use (dir, turn, board, color, storage, players,sequence)))
         {
-            changeDir (dir);
-            updateTurn (dir,turn,1);
-            return true;
+            storage.addCard (board.changeCardOnBoard (this));
+            board.changeColor (this.getColor ());
         }
 
-        storage.addCard (board.changeCardOnBoard (this));
-        board.changeColor (this.getColor ());
         changeDir (dir);
         updateTurn (dir,turn,1);
         return true;

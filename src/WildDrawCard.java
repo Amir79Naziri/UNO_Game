@@ -13,18 +13,23 @@ public class WildDrawCard extends WildCard
     {
         if (!super.canUse (board))
             return false;
-        if (super.use (dir, turn, board, color, storage, players,sequence))
+        if (!(super.use (dir, turn, board, color, storage, players,sequence)))
+        {
+            storage.addCard (board.changeCardOnBoard (this));
+            board.changeColor (color);
+            updateTurn (dir,turn,1);
+        }
+
+
+        if (!(players[turn.getWhoIsTurn () - 1].canUseWildCard (board) &&
+                players[turn.getWhoIsTurn () - 1].hasWildDraw ()))
         {
             giveCardToPlayer (dir, turn, board, color, storage, players,sequence);
             updateTurn (dir,turn,1);
-            return true;
         }
+        else
+            players[turn.getWhoIsTurn () - 1].setShouldUseWildDraw (true);
 
-        storage.addCard (board.changeCardOnBoard (this));
-        board.changeColor (color);
-        updateTurn (dir,turn,1);
-        giveCardToPlayer (dir, turn, board, color, storage, players,sequence);
-        updateTurn (dir,turn,1);
         return true;
     }
 
