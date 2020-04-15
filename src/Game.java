@@ -8,6 +8,7 @@ public abstract class Game
     private Board board;
     private GameDirection dir;
     private UserInterface userInterface;
+    private SequenceKeeper sequenceKeeper;
 
     public Game (int numOfPlayer)
     {
@@ -17,6 +18,7 @@ public abstract class Game
         board = new Board ();
         dir = new GameDirection ();
         userInterface = new UserInterface ();
+        sequenceKeeper = new SequenceKeeper ();
     }
 
     public int getNumOfPlayer () {
@@ -92,10 +94,52 @@ public abstract class Game
 
     public void play () throws InterruptedException
     {
-        int sequenceN = 1;
-        int sequenceW = 1;
         if (!startGame ())
             return;
+        boardCardUse ();
+        while (!stopGame ())
+        {
+            Card card;
+            if (getPlayerWhoIsTurn ().hasMatchCard (getBoard ()))
+            {
+                getUserInterface ().printGame (getBoard (),getPlayerWhoIsTurn (),getTurn (),
+                        getDir (),getPlayers (),true);
+
+                card = playerGetCard ();
+            }
+            else
+            {
+                getUserInterface ().printGame (getBoard (),getPlayerWhoIsTurn (),getTurn (),
+                        getDir (),getPlayers (),true);
+                getUserInterface ().printNoMatch ();
+                Thread.sleep (3000);
+                getPlayerWhoIsTurn ().addCards (getStorage ().CardsForPlayer (1));
+
+                if (getPlayerWhoIsTurn ().hasMatchCard (getBoard ()))
+                {
+                    getUserInterface ().printGame (getBoard (),getPlayerWhoIsTurn (),getTurn (),
+                            getDir (),getPlayers (),true);
+                    card = playerGetCard ();
+                }
+                else
+                {
+                    getUserInterface ().printGame (getBoard (),getPlayerWhoIsTurn (),getTurn (),
+                            getDir (),getPlayers (),true);
+                    getUserInterface ().printNoMatch ();
+                    Thread.sleep (3000);
+                    getTurn ().changeTurn (getDir (),1);
+                    continue;
+                }
+            }
+
+            if (card == null)
+                continue;
+            useCard (card);
+        }
+    }
+
+    public void boardCardUse () throws InterruptedException
+    {
         if (!(getBoard ().getCardOnBoard () instanceof NumericCard))
         {
             getUserInterface ().printGame (getBoard (),getPlayerWhoIsTurn (),getTurn (),
@@ -111,70 +155,29 @@ public abstract class Game
                 getTurn ().changeTurn (getDir (),-1);
                 Thread.sleep (3000);
                 getBoard ().getCardOnBoard ().use (getDir (),getTurn (),getBoard (),Color.NON_COLOR,
-                        getStorage (),getPlayers (),sequenceN);
+                        getStorage (),getPlayers (),sequenceKeeper);
             }
         }
-        while (!stopGame ())
+    }
+
+    public Card playerGetCard () throws InterruptedException {
+        if (getPlayerWhoIsTurn () instanceof MachinePlayer)
+            Thread.sleep (3000);
+        return getPlayerWhoIsTurn ().useCard (getUserInterface (),getBoard ());
+    }
+
+
+    public void useCard (Card card)
+    {
+        if (card instanceof WildCard)
         {
-            Card card;
-            if (getPlayerWhoIsTurn ().hasMatchCard (getBoard ()))
-            {
-                getUserInterface ().printGame (getBoard (),getPlayerWhoIsTurn (),getTurn (),
-                        getDir (),getPlayers (),true);
-                if (getPlayerWhoIsTurn () instanceof MachinePlayer)
-                    Thread.sleep (3000);
-                card = getPlayerWhoIsTurn ().useCard (getUserInterface (),getBoard ());
-            }
-            else
-            {
-                getUserInterface ().printGame (getBoard (),getPlayerWhoIsTurn (),getTurn (),
-                        getDir (),getPlayers (),true);
-                getUserInterface ().printNoMatch ();
-                Thread.sleep (3000);
-                getPlayerWhoIsTurn ().addCards (getStorage ().CardsForPlayer (1));
-
-                if (getPlayerWhoIsTurn ().hasMatchCard (getBoard ()))
-                {
-                    getUserInterface ().printGame (getBoard (),getPlayerWhoIsTurn (),getTurn (),
-                            getDir (),getPlayers (),true);
-                    if (getPlayerWhoIsTurn () instanceof MachinePlayer)
-                        Thread.sleep (3000);
-                    card = getPlayerWhoIsTurn ().useCard (getUserInterface (),getBoard ());
-                }
-                else
-                {
-                    getUserInterface ().printGame (getBoard (),getPlayerWhoIsTurn (),getTurn (),
-                            getDir (),getPlayers (),true);
-                    getUserInterface ().printNoMatch ();
-                    Thread.sleep (3000);
-                    getTurn ().changeTurn (getDir (),1);
-                    continue;
-                }
-            }
-
-            if (card == null)
-                continue;
-            if (card instanceof WildCard)
-            {
-                card.use (getDir (),getTurn (),getBoard (),getUserInterface ().
-                                getColor (getPlayerWhoIsTurn ()),
-                        getStorage (),getPlayers (),sequenceW);
-            }
-            else
-                card.use (getDir (),getTurn (),getBoard (),Color.NON_COLOR,
-                        getStorage (),getPlayers (),sequenceN);
-
-            if (card instanceof ColorDrawCard)
-                sequenceN += 1;
-            else if (card instanceof WildDrawCard)
-                sequenceW += 1;
-            else
-            {
-                sequenceN = 1;
-                sequenceW = 1;
-            }
-
+            card.use (getDir (),getTurn (),getBoard (),getUserInterface ().
+                            getColor (getPlayerWhoIsTurn ()),
+                    getStorage (),getPlayers (),sequenceKeeper);
         }
+        else
+            card.use (getDir (),getTurn (),getBoard (),Color.NON_COLOR,
+                    getStorage (),getPlayers (),sequenceKeeper);
     }
 
     public LinkedHashMap<String,Integer> findSortedListOfPlayers ()

@@ -1,5 +1,5 @@
 public interface DrawType
 {
     void giveCardToPlayer (GameDirection dir, Turn turn, Board board, Color color, Storage storage,
-                                  Player[] players, int sequence);
+                                  Player[] players, SequenceKeeper sequence);
 }

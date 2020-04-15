@@ -21,7 +21,7 @@ public class ColorDrawCard extends ColorCard
     }
 
     public boolean use (GameDirection dir, Turn turn, Board board, Color color, Storage storage,
-                        Player[] players, int sequence)
+                        Player[] players, SequenceKeeper sequence)
     {
         if (!canUse (board))
             return false;
@@ -34,23 +34,27 @@ public class ColorDrawCard extends ColorCard
         turn.changeTurn (dir,1);
         if (!(players[turn.getWhoIsTurn () - 1].hasColorDraw ()))
         {
+            sequence.finishSeqND ();
             giveCardToPlayer (dir, turn, board, color, storage, players,sequence);
             updateTurn (dir, turn,1);
         }
         else
+        {
             players[turn.getWhoIsTurn () - 1].setShouldUseDraw (true);
+            sequence.increaseSeqND ();
+        }
         return true;
     }
 
 
     public void giveCardToPlayer (GameDirection dir, Turn turn, Board board, Color color,
-                                  Storage storage, Player[] players, int sequence)
+                                  Storage storage, Player[] players, SequenceKeeper sequence)
     {
         LinkedList<Card> cards;
         if (turn == null || storage == null)
             return;
 
-        cards = storage.CardsForPlayer (sequence * 2);
+        cards = storage.CardsForPlayer (sequence.getSeqND () * 2);
 
         if (cards != null)
             players[turn.getWhoIsTurn () - 1].addCards (cards);

@@ -19,7 +19,7 @@ public abstract class ColorCard extends Card
     }
 
     public boolean use (GameDirection dir, Turn turn, Board board,Color color,
-                        Storage storage, Player[] players, int sequence)
+                        Storage storage, Player[] players, SequenceKeeper sequence)
     {
         if (!canUse (board))
             return false;
