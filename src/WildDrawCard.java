@@ -9,13 +9,13 @@ public class WildDrawCard extends WildCard
 
 
     public boolean use (GameDirection dir, Turn turn, Board board, Color color, Storage storage ,
-                        Player[] players)
+                        Player[] players, int sequence)
     {
         if (!super.canUse (board))
             return false;
-        if (super.use (dir, turn, board, color, storage, players))
+        if (super.use (dir, turn, board, color, storage, players,sequence))
         {
-            giveCardToPlayer (dir, turn, board, color, storage, players);
+            giveCardToPlayer (dir, turn, board, color, storage, players,sequence);
             updateTurn (dir,turn,1);
             return true;
         }
@@ -23,18 +23,18 @@ public class WildDrawCard extends WildCard
         storage.addCard (board.changeCardOnBoard (this));
         board.changeColor (color);
         updateTurn (dir,turn,1);
-        giveCardToPlayer (dir, turn, board, color, storage, players);
+        giveCardToPlayer (dir, turn, board, color, storage, players,sequence);
         updateTurn (dir,turn,1);
         return true;
     }
 
 
     public void giveCardToPlayer (GameDirection dir, Turn turn, Board board, Color color,
-                                  Storage storage, Player[] players)
+                                  Storage storage, Player[] players, int sequence)
     {
         if (turn == null || storage == null)
             return;
-        LinkedList<Card> cards = storage.CardsForPlayer (4);
+        LinkedList<Card> cards = storage.CardsForPlayer (sequence * 4);
         if (cards != null)
             players[turn.getWhoIsTurn () - 1].addCards (cards);
     }

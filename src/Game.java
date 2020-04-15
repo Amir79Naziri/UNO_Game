@@ -87,6 +87,8 @@ public abstract class Game
 
     public void play () throws InterruptedException
     {
+        int sequenceN = 1;
+        int sequenceW = 1;
         if (!startGame ())
             return;
         if (!(getBoard ().getCardOnBoard () instanceof NumericCard))
@@ -104,7 +106,7 @@ public abstract class Game
                 getTurn ().changeTurn (getDir (),-1);
                 Thread.sleep (3000);
                 getBoard ().getCardOnBoard ().use (getDir (),getTurn (),getBoard (),Color.NON_COLOR,
-                        getStorage (),getPlayers ());
+                        getStorage (),getPlayers (),sequenceN);
             }
         }
         while (!stopGame ())
@@ -148,11 +150,25 @@ public abstract class Game
             if (card == null)
                 continue;
             if (card instanceof WildCard)
+            {
                 card.use (getDir (),getTurn (),getBoard (),getUserInterface ().
-                                getColor (getPlayerWhoIsTurn ()), getStorage (),getPlayers ());
+                                getColor (getPlayerWhoIsTurn ()),
+                        getStorage (),getPlayers (),sequenceW);
+            }
             else
                 card.use (getDir (),getTurn (),getBoard (),Color.NON_COLOR,
-                        getStorage (),getPlayers ());
+                        getStorage (),getPlayers (),sequenceN);
+
+            if (card instanceof ColorDrawCard)
+                sequenceN += 1;
+            else if (card instanceof WildDrawCard)
+                sequenceW += 1;
+            else
+            {
+                sequenceN = 1;
+                sequenceW = 1;
+            }
+
         }
     }
 }

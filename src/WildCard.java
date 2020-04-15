@@ -9,7 +9,7 @@ public abstract class WildCard extends Card
     }
 
     public boolean use (GameDirection dir, Turn turn, Board board, Color color, Storage storage,
-                        Player[] players)
+                        Player[] players, int sequence)
     {
         if (!canUse (board))
             return false;
