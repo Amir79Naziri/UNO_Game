@@ -13,17 +13,18 @@ public class GameOnePlayer extends Game
     public boolean starterGameForPlayers ()
     {
         Random random = new Random ();
-        int indexOfHumanPlayer = random.nextInt (getNumOfPlayer ());
-        for (int i = 0; i < getNumOfPlayer (); i++)
+        int indexOfHumanPlayer = random.nextInt (getGameHandler ().getNumOfPlayer ());
+        for (int i = 0; i < getGameHandler ().getNumOfPlayer (); i++)
         {
-            LinkedList<Card> cardsForPlayer = getStorage ().CardsForPlayer (7);
+            LinkedList<Card> cardsForPlayer = getGameHandler ().
+                    getStorage ().CardsForPlayer (7);
             if (cardsForPlayer == null)
                 return false;
 
             if (i == indexOfHumanPlayer)
-                getPlayers ()[i] = new HumanPlayer (cardsForPlayer);
+                getGameHandler ().getPlayers ()[i] = new HumanPlayer (cardsForPlayer);
             else
-                getPlayers ()[i] = new MachinePlayer (cardsForPlayer);
+                getGameHandler ().getPlayers ()[i] = new MachinePlayer (cardsForPlayer);
         }
         return true;
     }

@@ -11,7 +11,7 @@ public class HumanPlayer extends Player
     {
         if (userInterface == null)
             return null;
-        int index = userInterface.getIndex (this);
+        int index = userInterface.getIndex (getCards ().size ());
 
         if (getCards ().get (index).canUse (board))
         {

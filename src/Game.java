@@ -1,87 +1,41 @@
-import java.util.*;
-
 public abstract class Game
 {
-    private Turn turn;
-    private Player[] players;
-    private Storage storage;
-    private Board board;
-    private GameDirection dir;
-    private UserInterface userInterface;
-    private SequenceKeeper sequenceKeeper;
+    private GameHandler gameHandler;
 
     public Game (int numOfPlayer)
     {
-        turn = Turn.getInstance (numOfPlayer);
-        players = new Player[numOfPlayer];
-        storage = Storage.getInstanceStorage ();
-        board = new Board ();
-        dir = new GameDirection ();
-        userInterface = new UserInterface ();
-        sequenceKeeper = new SequenceKeeper ();
+        gameHandler = new GameHandler (numOfPlayer);
     }
 
-    public int getNumOfPlayer () {
-        return players.length;
-    }
-
-    public UserInterface getUserInterface () {
-        return userInterface;
-    }
-
-    public Board getBoard () {
-        return board;
-    }
-
-    public Storage getStorage () {
-        return storage;
-    }
-
-    public GameDirection getDir () {
-        return dir;
-    }
-
-    public Player[] getPlayers () {
-        return players;
-    }
-
-    public Turn getTurn () {
-        return turn;
-    }
-
-    public SequenceKeeper getSequenceKeeper () {
-        return sequenceKeeper;
+    public GameHandler getGameHandler () {
+        return gameHandler;
     }
 
     public abstract boolean starterGameForPlayers ();
 
+
     private boolean starterGameForBoard ()
     {
-        Card cardForBoard = storage.CardForBoard ();
+        Card cardForBoard = getGameHandler ().getStorage ().CardForBoard ();
         if (cardForBoard == null)
             return false;
-        board.changeCardOnBoard (cardForBoard);
-        board.changeColor (((ColorCard)cardForBoard).getColor ());
+        getGameHandler ().getBoard ().changeCardOnBoard (cardForBoard);
+        getGameHandler ().getBoard ().changeColor (((ColorCard)cardForBoard).getColor ());
         return true;
-    }
-
-    public Player getPlayerWhoIsTurn ()
-    {
-        int index = turn.getWhoIsTurn () - 1;
-        return players[index];
     }
 
     private boolean stopGame ()
     {
         int counter = 1;
-        for (Player player : players)
+        for (Player player : getGameHandler ().getPlayers ())
         {
             if (player.getCards ().size () == 0)
             {
                 System.out.println ("\n\n\n\n");
                 System.err.println ("                   player" + counter + " won " +
                         "                   \n");
-                userInterface.printEndTable (findSortedListOfPlayers ());
+                getGameHandler ().getUserInterface ().printEndTable
+                        (getGameHandler ().findSortedListOfPlayers ());
                 return true;
             }
             counter++;
@@ -100,112 +54,49 @@ public abstract class Game
     {
         if (!startGame ())
             return;
-        boardCardUse ();
+        getGameHandler ().boardCardUse ();
         while (!stopGame ())
         {
             Card card;
-            if (getPlayerWhoIsTurn ().hasMatchCard (getBoard ()))
+            if (getGameHandler ().getPlayerWhoIsTurn ().
+                    hasMatchCard (getGameHandler ().getBoard ()))
             {
-                getUserInterface ().printGame (getBoard (),getPlayerWhoIsTurn (),getTurn (),
-                        getDir (),getPlayers (),true);
+                getGameHandler ().getUserInterface ().printGame (getGameHandler (),true);
 
-                card = playerGetCard ();
+                card = getGameHandler ().playerGetCard ();
             }
             else
             {
-                getUserInterface ().printGame (getBoard (),getPlayerWhoIsTurn (),getTurn (),
-                        getDir (),getPlayers (),true);
-                getUserInterface ().printNoMatch ();
+                getGameHandler ().getUserInterface ().
+                        printGame (getGameHandler (),true);
+                getGameHandler ().getUserInterface ().printNoMatch ();
                 Thread.sleep (3000);
-                getPlayerWhoIsTurn ().addCards (getStorage ().CardsForPlayer (1));
+                getGameHandler ().getPlayerWhoIsTurn ().addCards (getGameHandler ().getStorage ().
+                        CardsForPlayer (1));
 
-                if (getPlayerWhoIsTurn ().hasMatchCard (getBoard ()))
+                if (getGameHandler ().getPlayerWhoIsTurn ().
+                        hasMatchCard (getGameHandler ().getBoard ()))
                 {
-                    getUserInterface ().printGame (getBoard (),getPlayerWhoIsTurn (),getTurn (),
-                            getDir (),getPlayers (),true);
-                    card = playerGetCard ();
+                    getGameHandler ().getUserInterface ().
+                            printGame (getGameHandler (),true);
+                    card = getGameHandler ().playerGetCard ();
                 }
                 else
                 {
-                    getUserInterface ().printGame (getBoard (),getPlayerWhoIsTurn (),getTurn (),
-                            getDir (),getPlayers (),true);
-                    getUserInterface ().printNoMatch ();
+                    getGameHandler ().getUserInterface ().
+                            printGame (getGameHandler (),true);
+                    getGameHandler ().getUserInterface ().printNoMatch ();
+
                     Thread.sleep (3000);
-                    getTurn ().changeTurn (getDir (),1);
+                    getGameHandler ().getTurn ().changeTurn (getGameHandler ().
+                            getDir (),1);
                     continue;
                 }
             }
 
             if (card == null)
                 continue;
-            useCard (card);
+            getGameHandler ().useCard (card);
         }
-    }
-
-    private void boardCardUse () throws InterruptedException
-    {
-        if (!(getBoard ().getCardOnBoard () instanceof NumericCard))
-        {
-            getUserInterface ().printGame (getBoard (),getPlayerWhoIsTurn (),getTurn (),
-                    getDir (),getPlayers (),true);
-
-            if (getBoard ().getCardOnBoard () instanceof ReverseCard)
-            {
-                Thread.sleep (3000);
-                dir.changeDirection ();
-            }
-            else
-            {
-                getTurn ().changeTurn (getDir (),-1);
-                Thread.sleep (3000);
-                getBoard ().getCardOnBoard ().use (getDir (),getTurn (),getBoard (),Color.NON_COLOR,
-                        getStorage (),getPlayers (),getSequenceKeeper ());
-            }
-        }
-    }
-
-
-    private Card playerGetCard () throws InterruptedException {
-        if (getPlayerWhoIsTurn () instanceof MachinePlayer)
-            Thread.sleep (3000);
-        return getPlayerWhoIsTurn ().useCard (getUserInterface (),getBoard ());
-    }
-
-
-    private void useCard (Card card)
-    {
-        if (card instanceof WildCard)
-        {
-            card.use (getDir (),getTurn (),getBoard (),getUserInterface ().
-                            getColor (getPlayerWhoIsTurn ()),
-                    getStorage (),getPlayers (),getSequenceKeeper ());
-        }
-        else
-            card.use (getDir (),getTurn (),getBoard (),Color.NON_COLOR,
-                    getStorage (),getPlayers (),getSequenceKeeper ());
-    }
-
-    private LinkedHashMap<String,Integer> findSortedListOfPlayers ()
-    {
-        ArrayList<Integer> points = new ArrayList<> ();
-        for (Player player : getPlayers ())
-        {
-            player.calculatePoints ();
-            points.add (player.getPoint ());
-        }
-        Collections.sort (points);
-
-        LinkedHashMap<String,Integer> sortedPlayers = new LinkedHashMap<> ();
-
-        for (Integer point : points)
-        {
-            for (int i = 0; i < getNumOfPlayer (); i++)
-            {
-                if (point.equals (getPlayers ()[i].getPoint ()))
-                    sortedPlayers.put ("Player" + (i + 1),point);
-            }
-        }
-
-        return sortedPlayers;
     }
 }

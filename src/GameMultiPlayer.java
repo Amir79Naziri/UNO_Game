@@ -13,13 +13,14 @@ public class GameMultiPlayer extends Game
 
     public boolean starterGameForPlayers ()
     {
-        for (int i = 0; i < getNumOfPlayer (); i++)
+        for (int i = 0; i < getGameHandler ().getNumOfPlayer (); i++)
         {
-            LinkedList<Card> cardsForPlayer = getStorage ().CardsForPlayer (7);
+            LinkedList<Card> cardsForPlayer = getGameHandler ().
+                    getStorage ().CardsForPlayer (7);
             if (cardsForPlayer == null)
                 return false;
 
-            getPlayers ()[i] = new HumanPlayer (cardsForPlayer);
+            getGameHandler ().getPlayers ()[i] = new HumanPlayer (cardsForPlayer);
         }
         return true;
     }

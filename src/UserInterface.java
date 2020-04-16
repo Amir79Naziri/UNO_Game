@@ -12,29 +12,40 @@ public class UserInterface
     }
 
 
-    public void printGame (Board board, Player playerInTurn, Turn turn,
-                                   GameDirection dir,Player[] players, boolean showTurn)
+    public void printGame (GameHandler gameHandler, boolean showTurn)
     {
-        if (playerInTurn == null)
+        if (gameHandler == null)
             return;
         System.out.println ("\n\n\n");
-        printer.printCardOnBoard (board);
-        printer.printAllSize (players);
-        printer.printCardsOfPlayer (playerInTurn);
+        printer.printCardOnBoard (gameHandler.getBoard ());
+        printer.printAllSize (gameHandler.getPlayers ());
+        printer.printCardsOfPlayer (gameHandler.getPlayerWhoIsTurn ());
         if (showTurn)
-            printer.printTurn (turn);
-        printer.printDir (dir);
+            printer.printTurn (gameHandler.getTurn ());
+        printer.printDir (gameHandler.getDir ());
     }
 
-    public int getIndex (Player playerInTurn)
+    public int getIndex (int size)
     {
-        return reader.
-                getIndexOfChosenCard (playerInTurn,printer);
+
+        printer.printIndexGivingMassageFromPlayer ();
+        int index = reader.getIndexOfChosenCard ();
+        if (index >= size  || index < 0)
+            return  getIndex (size);
+        else
+            return index;
     }
 
-    public Color getColor (Player playerInTurn)
+    public Color getColor (GameHandler gameHandler)
     {
-        return reader.getColor (playerInTurn,printer);
+        if (gameHandler == null)
+            return null;
+        printer.printColorGetterMassage ();
+        Color color =  reader.getColor (gameHandler.getPlayerWhoIsTurn ());
+        if (color == null)
+            return getColor (gameHandler);
+        else
+            return color;
     }
 
 
@@ -46,6 +57,7 @@ public class UserInterface
 
     public void printEndTable (LinkedHashMap<String,Integer> sortedPlayers)
     {
-        printer.printEndTable (sortedPlayers);
+        printer.
+                printEndTable (sortedPlayers);
     }
 }
