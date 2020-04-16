@@ -17,12 +17,12 @@ public class UserInterface
         if (gameHandler == null)
             return;
         System.out.println ("\n\n\n");
-        printer.printCardOnBoard (gameHandler.getBoard ());
-        printer.printAllSize (gameHandler.getPlayers ());
-        printer.printCardsOfPlayer (gameHandler.getPlayerWhoIsTurn ());
+        printer.printCardOnBoard (gameHandler);
+        printer.printAllSize (gameHandler);
+        printer.printCardsOfPlayer (gameHandler);
         if (showTurn)
-            printer.printTurn (gameHandler.getTurn ());
-        printer.printDir (gameHandler.getDir ());
+            printer.printTurn (gameHandler);
+        printer.printDir (gameHandler);
     }
 
     public int getIndex (int size)
@@ -41,7 +41,7 @@ public class UserInterface
         if (gameHandler == null)
             return null;
         printer.printColorGetterMassage ();
-        Color color =  reader.getColor (gameHandler.getPlayerWhoIsTurn ());
+        Color color =  reader.getColor (gameHandler);
         if (color == null)
             return getColor (gameHandler);
         else

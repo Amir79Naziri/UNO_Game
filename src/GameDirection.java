@@ -15,7 +15,7 @@ public class GameDirection
             dir = Direction.CLOCKWISE;
     }
 
-    public Direction getDir () {
+    public Direction getDirection () {
         return dir;
     }
 }

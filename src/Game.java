@@ -59,7 +59,7 @@ public abstract class Game
         {
             Card card;
             if (getGameHandler ().getPlayerWhoIsTurn ().
-                    hasMatchCard (getGameHandler ().getBoard ()))
+                    hasMatchCard (getGameHandler ()))
             {
                 getGameHandler ().getUserInterface ().printGame (getGameHandler (),true);
 
@@ -75,7 +75,7 @@ public abstract class Game
                         CardsForPlayer (1));
 
                 if (getGameHandler ().getPlayerWhoIsTurn ().
-                        hasMatchCard (getGameHandler ().getBoard ()))
+                        hasMatchCard (getGameHandler ()))
                 {
                     getGameHandler ().getUserInterface ().
                             printGame (getGameHandler (),true);

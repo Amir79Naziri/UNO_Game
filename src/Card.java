@@ -1,16 +1,18 @@
 public abstract class Card
 {
 
-    public abstract boolean canUse (Board board);
+    public abstract boolean canUse (GameHandler gameHandler);
 
-    public abstract boolean use (GameDirection dir, Turn turn, Board board, Color color,
-                                 Storage storage, Player[] players, SequenceKeeper sequence);
+    public abstract boolean use (GameHandler gameHandler, Color color);
 
-    public void updateTurn (GameDirection dir, Turn turn, int unit)
+    public void updateTurn (GameHandler gameHandler, int unit)
     {
-        if (turn == null)
+        if (gameHandler == null)
             return;
-        turn.changeTurn (dir,unit);
+
+        if (gameHandler.getTurn () == null)
+            return;
+        gameHandler.getTurn ().changeTurn (gameHandler.getDir (),unit);
     }
 
 }

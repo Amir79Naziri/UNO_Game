@@ -8,44 +8,43 @@ public class WildDrawCard extends WildCard
     private WildDrawCard () {}
 
 
-    public boolean use (GameDirection dir, Turn turn, Board board, Color color, Storage storage ,
-                        Player[] players, SequenceKeeper sequence)
+    public boolean use (GameHandler gameHandler, Color color)
     {
-        if (!super.canUse (board))
+        if (!super.canUse (gameHandler))
             return false;
-        if (!(super.use (dir, turn, board, color, storage, players,sequence)))
+        if (!(super.use (gameHandler, color)))
         {
-            storage.addCard (board.changeCardOnBoard (this));
-            board.changeColor (color);
-            updateTurn (dir,turn,1);
+            gameHandler.getStorage ().addCard (gameHandler.getBoard ().changeCardOnBoard (this));
+            gameHandler.getBoard ().changeColor (color);
+            updateTurn (gameHandler,1);
         }
 
 
-        if (!(players[turn.getWhoIsTurn () - 1].canUseWildCard (board) &&
-                players[turn.getWhoIsTurn () - 1].hasWildDraw ()))
+        if (!(gameHandler.getPlayerWhoIsTurn ().canUseWildCard (gameHandler) &&
+                gameHandler.getPlayerWhoIsTurn ().hasWildDraw ()))
         {
-            giveCardToPlayer (dir, turn, board, color, storage, players,sequence);
-            sequence.finishSeqWD ();
-            updateTurn (dir,turn,1);
+            giveCardToPlayer (gameHandler);
+            gameHandler.getSequenceKeeper ().finishSeqWD ();
+            updateTurn (gameHandler,1);
         }
         else
         {
-            players[turn.getWhoIsTurn () - 1].setShouldUseWildDraw (true);
-            sequence.increaseSeqWD ();
+            gameHandler.getPlayerWhoIsTurn ().setShouldUseWildDraw (true);
+            gameHandler.getSequenceKeeper ().increaseSeqWD ();
         }
 
         return true;
     }
 
 
-    public void giveCardToPlayer (GameDirection dir, Turn turn, Board board, Color color,
-                                  Storage storage, Player[] players, SequenceKeeper sequence)
+    public void giveCardToPlayer (GameHandler gameHandler)
     {
-        if (turn == null || storage == null)
+        if (gameHandler == null)
             return;
-        LinkedList<Card> cards = storage.CardsForPlayer (sequence.getSeqWD () * 4);
+        LinkedList<Card> cards = gameHandler.getStorage ().
+                CardsForPlayer (gameHandler.getSequenceKeeper ().getSeqWD () * 4);
         if (cards != null)
-            players[turn.getWhoIsTurn () - 1].addCards (cards);
+            gameHandler.getPlayerWhoIsTurn ().addCards (cards);
     }
 
     public boolean equals (Object o)

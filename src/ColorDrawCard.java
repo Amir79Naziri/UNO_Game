@@ -11,53 +11,54 @@ public class ColorDrawCard extends ColorCard
     }
 
 
-    public boolean canUse (Board board)
+    public boolean canUse (GameHandler gameHandler)
     {
-        if (board == null)
+        if (gameHandler == null)
             return false;
-        if (super.canUse (board))
+        if (gameHandler.getBoard () == null)
+            return false;
+        if (super.canUse (gameHandler))
             return true;
-        return board.getCardOnBoard () instanceof ColorDrawCard;
+        return gameHandler.getBoard ().getCardOnBoard () instanceof ColorDrawCard;
     }
 
-    public boolean use (GameDirection dir, Turn turn, Board board, Color color, Storage storage,
-                        Player[] players, SequenceKeeper sequence)
+    public boolean use (GameHandler gameHandler, Color color)
     {
-        if (!canUse (board))
+        if (!canUse (gameHandler))
             return false;
-        if (!(super.use (dir, turn, board, color, storage, players,sequence)))
+        if (!(super.use (gameHandler, color)))
         {
-            storage.addCard (board.changeCardOnBoard (this));
-            board.changeColor (this.getColor ());
+            gameHandler.getStorage ().addCard (gameHandler.getBoard ().changeCardOnBoard (this));
+            gameHandler.getBoard ().changeColor (this.getColor ());
         }
 
-        turn.changeTurn (dir,1);
-        if (!(players[turn.getWhoIsTurn () - 1].hasColorDraw ()))
+        updateTurn (gameHandler,1);
+        if (!(gameHandler.getPlayerWhoIsTurn ().hasColorDraw ()))
         {
-            giveCardToPlayer (dir, turn, board, color, storage, players,sequence);
-            sequence.finishSeqND ();
-            updateTurn (dir, turn,1);
+            giveCardToPlayer (gameHandler);
+            gameHandler.getSequenceKeeper ().finishSeqND ();
+            updateTurn (gameHandler,1);
         }
         else
         {
-            players[turn.getWhoIsTurn () - 1].setShouldUseDraw (true);
-            sequence.increaseSeqND ();
+            gameHandler.getPlayerWhoIsTurn ().setShouldUseDraw (true);
+            gameHandler.getSequenceKeeper ().increaseSeqND ();
         }
         return true;
     }
 
 
-    public void giveCardToPlayer (GameDirection dir, Turn turn, Board board, Color color,
-                                  Storage storage, Player[] players, SequenceKeeper sequence)
+    public void giveCardToPlayer (GameHandler gameHandler)
     {
         LinkedList<Card> cards;
-        if (turn == null || storage == null)
+        if (gameHandler == null)
             return;
 
-        cards = storage.CardsForPlayer (sequence.getSeqND () * 2);
+        cards = gameHandler.getStorage ().
+                CardsForPlayer (gameHandler.getSequenceKeeper ().getSeqND () * 2);
 
         if (cards != null)
-            players[turn.getWhoIsTurn () - 1].addCards (cards);
+            gameHandler.getPlayerWhoIsTurn ().addCards (cards);
     }
 
     public boolean equals (Object o)

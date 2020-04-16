@@ -10,28 +10,29 @@ public class ReverseCard extends ColorCard
     }
 
 
-    public boolean canUse (Board board)
+    public boolean canUse (GameHandler gameHandler)
     {
-        if (board == null)
+        if (gameHandler == null)
             return false;
-        if (super.canUse (board))
+        if (gameHandler.getBoard () == null)
+            return false;
+        if (super.canUse (gameHandler))
             return true;
-        return board.getCardOnBoard () instanceof ReverseCard;
+        return gameHandler.getBoard ().getCardOnBoard () instanceof ReverseCard;
     }
 
-    public boolean use (GameDirection dir, Turn turn, Board board, Color color, Storage storage,
-                        Player[] players, SequenceKeeper sequence) {
+    public boolean use (GameHandler gameHandler, Color color) {
 
-        if (!canUse (board))
+        if (!canUse (gameHandler))
             return false;
-        if (!(super.use (dir, turn, board, color, storage, players,sequence)))
+        if (!(super.use (gameHandler, color)))
         {
-            storage.addCard (board.changeCardOnBoard (this));
-            board.changeColor (this.getColor ());
+            gameHandler.getStorage ().addCard (gameHandler.getBoard ().changeCardOnBoard (this));
+            gameHandler.getBoard ().changeColor (this.getColor ());
         }
 
-        changeDir (dir);
-        updateTurn (dir,turn,1);
+        changeDir (gameHandler.getDir ());
+        updateTurn (gameHandler,1);
         return true;
     }
 

@@ -3,19 +3,20 @@ import java.util.LinkedList;
 public abstract class WildCard extends Card
 {
 
-    public boolean canUse (Board board)
+    public boolean canUse (GameHandler gameHandler)
     {
-        return board != null;
+        if (gameHandler == null)
+            return false;
+        return gameHandler.getBoard () != null;
     }
 
-    public boolean use (GameDirection dir, Turn turn, Board board, Color color, Storage storage,
-                        Player[] players, SequenceKeeper sequence)
+    public boolean use (GameHandler gameHandler, Color color)
     {
-        if (!canUse (board))
+        if (!canUse (gameHandler))
             return false;
-        storage.addCard (board.changeCardOnBoard (this));
-        board.changeColor (color);
-        updateTurn (dir,turn,1);
+        gameHandler.getStorage ().addCard (gameHandler.getBoard ().changeCardOnBoard (this));
+        gameHandler.getBoard ().changeColor (color);
+        updateTurn (gameHandler,1);
         return true;
     }
 

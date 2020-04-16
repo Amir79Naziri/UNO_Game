@@ -88,26 +88,27 @@ public abstract class Player
         return false;
     }
 
-    public boolean canUseWildCard (Board board)
+    public boolean canUseWildCard (GameHandler gameHandler)
     {
-        if (board == null)
+        if (gameHandler == null)
             return false;
 
         for (Card card : getCards ())
         {
-            if (card instanceof ColorCard && card.canUse (board))
+            if (card instanceof ColorCard && card.canUse (gameHandler))
                 return false;
         }
         return true;
     }
 
-    public boolean hasMatchCard (Board board)
+    public boolean hasMatchCard (GameHandler gameHandler)
+
     {
-        return !canUseWildCard (board) || hasWildCard ();
+        return !canUseWildCard (gameHandler) || hasWildCard ();
     }
 
 
-    public abstract Card useCard (UserInterface userInterface, Board board);
+    public abstract Card useCard (GameHandler gameHandler);
 
 
     public boolean hasColorDraw ()

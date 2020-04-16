@@ -21,10 +21,12 @@ public class Reader
         return index;
     }
 
-    public Color getColor (Player playerInTurn)
+    public Color getColor (GameHandler gameHandler)
     {
+        if (gameHandler == null)
+            return null;
         int chose = -1;
-        if (playerInTurn instanceof HumanPlayer)
+        if (gameHandler.getPlayerWhoIsTurn () instanceof HumanPlayer)
         {
             String line = reader.nextLine ();
             if (isValidIndex (line))

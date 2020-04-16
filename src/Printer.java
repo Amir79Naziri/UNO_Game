@@ -26,13 +26,13 @@ public class Printer
                 "4) " + Color.YELLOW.getANSICode () + '\u2B1B' + Color.RESET.getANSICode () + "\n");
     }
 
-    public void printAllSize (Player[] players)
+    public void printAllSize (GameHandler gameHandler)
     {
-        if (players == null)
+        if (gameHandler == null)
             return;
 
         int counter = 1;
-        for (Player player : players)
+        for (Player player : gameHandler.getPlayers ())
         {
             System.out.print ("Player " + counter + ":" + player.getCards ().size () + "   ");
             if (counter == 11)
@@ -42,35 +42,35 @@ public class Printer
         System.out.println ();
     }
 
-    public void printCardOnBoard (Board board)
+    public void printCardOnBoard (GameHandler gameHandler)
     {
 
-        if (board == null)
+        if (gameHandler == null)
             return;
 
         LinkedList<Card> cards = new LinkedList<> ();
-        cards.add (board.getCardOnBoard ());
+        cards.add (gameHandler.getBoard ().getCardOnBoard ());
         printMaxSevenCard ("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t   ",cards,false,
                 "");
         System.out.print ("\t\t\t\t\t\t\t\t\t\t\t\t\t\t" + "      Board color :");
-        System.out.print ("  " + board.getColor ().getANSICode () + '\u2B1B' +
+        System.out.print ("  " + gameHandler.getBoard ().getColor ().getANSICode () + '\u2B1B' +
                 Color.RESET.getANSICode () + "  ");
 
         System.out.println ();
     }
 
-    public void printTurn (Turn turn)
+    public void printTurn (GameHandler gameHandler)
     {
-        if (turn == null)
+        if (gameHandler == null)
             return;
-        System.out.print ("Player" + turn.getWhoIsTurn () + "  turn      ");
+        System.out.print ("Player" + gameHandler.getTurn ().getWhoIsTurn () + "  turn      ");
     }
 
-    public void printDir (GameDirection dir)
+    public void printDir (GameHandler gameHandler)
     {
-        if (dir == null)
+        if (gameHandler == null)
             return;
-        System.out.println (" DIR : " + dir.getDir ().getUniCode ());
+        System.out.println (" DIR : " + gameHandler.getDir ().getDirection ().getUniCode ());
     }
 
     public void printEndTable (LinkedHashMap<String,Integer> sortedPlayers)
@@ -87,15 +87,15 @@ public class Printer
         }
     }
 
-    public void printCardsOfPlayer (Player playerInTurn)
+    public void printCardsOfPlayer (GameHandler gameHandler)
     {
         System.out.println ("________________________________________________________________" +
                 "___________________________________________________________________" +
                 "________________");
         count = 0;
-        if (playerInTurn == null)
+        if (gameHandler == null)
             return;
-        LinkedList<Card> playerCards = playerInTurn.getCards ();
+        LinkedList<Card> playerCards = gameHandler.getPlayerWhoIsTurn ().getCards ();
         int size = playerCards.size ();
         int fullSeven = size / 7;
         int notFullSeven = size % 7;
@@ -106,7 +106,8 @@ public class Printer
             {
                 cards.add (playerCards.get ((7 * i) + j));
             }
-            printMaxSevenCard ("",cards,true,playerInTurn.getClass ().getName ());
+            printMaxSevenCard ("",cards,true,gameHandler.getPlayerWhoIsTurn ()
+                    .getClass ().getName ());
         }
         LinkedList<Card> secCards = new LinkedList<> ();
         for (int j = 0; j < notFullSeven; j++)
@@ -114,7 +115,8 @@ public class Printer
             secCards.add (playerCards.get ((7 * fullSeven) + j));
         }
         if (notFullSeven != 0)
-            printMaxSevenCard ("",secCards,true,playerInTurn.getClass ().getName ());
+            printMaxSevenCard ("",secCards,true,gameHandler.getPlayerWhoIsTurn ()
+                    .getClass ().getName ());
         System.out.println ("________________________________________________________________" +
                 "___________________________________________________________________" +
                 "________________");

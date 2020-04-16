@@ -7,9 +7,9 @@ public class MachinePlayer extends Player
         super(cards);
     }
 
-    public Card useCard (UserInterface userInterface, Board board)
+    public Card useCard (GameHandler gameHandler)
     {
-        if (canUseWildCard (board))
+        if (canUseWildCard (gameHandler))
         {
             for (Card card : getCards ())
                 if (card instanceof WildCard)
@@ -33,7 +33,7 @@ public class MachinePlayer extends Player
         else
         {
             for (Card card : getCards ())
-                if (!(card instanceof NumericCard) && card.canUse (board))
+                if (!(card instanceof NumericCard) && card.canUse (gameHandler))
                 {
                     if (isShouldUseDraw ())
                     {
@@ -52,7 +52,7 @@ public class MachinePlayer extends Player
                 }
 
             for (Card card : getCards ())
-                if (card instanceof NumericCard && card.canUse (board))
+                if (card instanceof NumericCard && card.canUse (gameHandler))
                 {
                     removeCard (card);
                     return card;

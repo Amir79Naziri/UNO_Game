@@ -10,21 +10,24 @@ public abstract class ColorCard extends Card
         this.color = color;
     }
 
-    public boolean canUse (Board board)
+    public boolean canUse (GameHandler gameHandler)
     {
-        if (board == null)
+        if (gameHandler == null)
+            return false;
+        if (gameHandler.getBoard () == null)
             return false;
 
-        return board.getColor () == this.getColor ();
+        return gameHandler.getBoard ().getColor () == this.getColor ();
     }
 
-    public boolean use (GameDirection dir, Turn turn, Board board,Color color,
-                        Storage storage, Player[] players, SequenceKeeper sequence)
+    public boolean use (GameHandler gameHandler, Color color)
     {
-        if (!canUse (board))
+        if (gameHandler == null)
             return false;
-        storage.addCard (board.changeCardOnBoard (this));
-        board.changeColor (this.getColor ());
+        if (!canUse (gameHandler))
+            return false;
+        gameHandler.getStorage ().addCard (gameHandler.getBoard ().changeCardOnBoard (this));
+        gameHandler.getBoard ().changeColor (this.getColor ());
         return true;
     }
 

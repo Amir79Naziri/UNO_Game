@@ -41,9 +41,9 @@ public class Turn
     {
         if (dir == null)
             return;
-        if (dir.getDir () == Direction.CLOCKWISE)
+        if (dir.getDirection () == Direction.CLOCKWISE)
             changeWhoIsTurn (addToTurn);
-        if (dir.getDir () == Direction.COUNTERCLOCKWISE)
+        if (dir.getDirection () == Direction.COUNTERCLOCKWISE)
             changeWhoIsTurn (-addToTurn);
     }
 }

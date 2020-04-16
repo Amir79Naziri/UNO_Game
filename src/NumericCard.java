@@ -17,29 +17,31 @@ public class NumericCard extends ColorCard
     }
 
 
-    public boolean canUse (Board board)
+    public boolean canUse (GameHandler gameHandler)
     {
-        if (board == null)
+        if (gameHandler == null)
             return false;
-        if (super.canUse (board))
+        if (gameHandler.getBoard () == null)
+            return false;
+        if (super.canUse (gameHandler))
             return true;
 
-        return board.getCardOnBoard () instanceof NumericCard &&
-                ((NumericCard) (board.getCardOnBoard ())).getNumber () == this.getNumber ();
+        return gameHandler.getBoard ().getCardOnBoard () instanceof NumericCard &&
+                ((NumericCard) (gameHandler.getBoard ().
+                        getCardOnBoard ())).getNumber () == this.getNumber ();
     }
 
-    public boolean use (GameDirection dir, Turn turn, Board board,Color color, Storage storage,
-                        Player[] players, SequenceKeeper sequence)
+    public boolean use (GameHandler gameHandler, Color color)
     {
-        if (!canUse (board))
+        if (!canUse (gameHandler))
             return false;
-        if (!(super.use (dir, turn, board, color, storage, players,sequence)))
+        if (!(super.use (gameHandler,color)))
         {
-            storage.addCard (board.changeCardOnBoard (this));
-            board.changeColor (this.getColor ());
+            gameHandler.getStorage ().addCard (gameHandler.getBoard ().changeCardOnBoard (this));
+            gameHandler.getBoard ().changeColor (this.getColor ());
         }
 
-        updateTurn (dir,turn,1);
+        updateTurn (gameHandler,1);
         return true;
     }
 

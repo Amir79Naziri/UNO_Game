@@ -78,8 +78,7 @@ public class GameHandler
             {
                 getTurn ().changeTurn (getDir (),-1);
                 Thread.sleep (3000);
-                getBoard ().getCardOnBoard ().use (getDir (),getTurn (),getBoard (),Color.NON_COLOR,
-                        getStorage (),getPlayers (),getSequenceKeeper ());
+                getBoard ().getCardOnBoard ().use (this,Color.NON_COLOR);
             }
         }
     }
@@ -88,7 +87,7 @@ public class GameHandler
     public Card playerGetCard () throws InterruptedException {
         if (getPlayerWhoIsTurn () instanceof MachinePlayer)
             Thread.sleep (3000);
-        return getPlayerWhoIsTurn ().useCard (getUserInterface (),getBoard ());
+        return getPlayerWhoIsTurn ().useCard (this);
     }
 
 
@@ -96,13 +95,10 @@ public class GameHandler
     {
         if (card instanceof WildCard)
         {
-            card.use (getDir (),getTurn (),getBoard (),getUserInterface ().
-                            getColor (this),
-                    getStorage (),getPlayers (),getSequenceKeeper ());
+            card.use (this,getUserInterface ().getColor (this));
         }
         else
-            card.use (getDir (),getTurn (),getBoard (),Color.NON_COLOR,
-                    getStorage (),getPlayers (),getSequenceKeeper ());
+            card.use (this,Color.NON_COLOR);
     }
 
     public LinkedHashMap<String,Integer> findSortedListOfPlayers ()
