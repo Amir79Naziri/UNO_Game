@@ -16,7 +16,7 @@ public class GameDirection
     }
 
     /**
-     * change Direction of Game :  cw --> ccw  or  ccw --> cw
+     * change Direction of Game :  cw change to ccw  or  ccw change to cw
      */
     public void changeDirection ()
     {
