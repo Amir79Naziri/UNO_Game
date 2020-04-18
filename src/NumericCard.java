@@ -1,22 +1,33 @@
 import java.util.LinkedList;
 
+/**
+ * this class represent a numeric card
+ *
+ * @author Amir Naziri
+ */
 public class NumericCard extends ColorCard
 {
-    private int number;
+    private int number; // number of Card
 
-
+    /**
+     * creates a new Numeric Card
+     * @param color color of card
+     * @param number number of card
+     */
     private NumericCard (Color color, int number)
     {
         super(color);
         this.number = number;
     }
 
-
+    /**
+     * @return number of card
+     */
     public int getNumber () {
         return number;
     }
 
-
+    @Override
     public boolean canUse (GameHandler gameHandler)
     {
         if (gameHandler == null)
@@ -31,6 +42,7 @@ public class NumericCard extends ColorCard
                         getCardOnBoard ())).getNumber () == this.getNumber ();
     }
 
+    @Override
     public boolean use (GameHandler gameHandler, Color color)
     {
         if (!canUse (gameHandler))
@@ -45,6 +57,7 @@ public class NumericCard extends ColorCard
         return true;
     }
 
+    @Override
     public boolean equals (Object o)
     {
         if (!(super.equals (o))) return false;
@@ -55,6 +68,10 @@ public class NumericCard extends ColorCard
         return this.getNumber () == that.getNumber ();
     }
 
+    /**
+     * this static method creates cards for game : 76 Cards with 10 numbers and 4 colors
+     * @return list of cards
+     */
     public static LinkedList<Card> produceCards ()
     {
         LinkedList<Card> list = new LinkedList<> ();

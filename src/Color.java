@@ -1,3 +1,8 @@
+/**
+ * this Enum holds colors with their ANSI code
+ *
+ * @author Amir Naziri
+ */
 public enum Color
 {
     RED ("\u001B[31m"), GREEN ("\u001b[38;5;34m"),
@@ -5,15 +10,22 @@ public enum Color
     GRAY("\u001b[38;5;8m"), NON_COLOR(""),
     RESET ("\u001B[0m");
 
-    private String uniCode;
+    private final String ANSI_CODE; // ANSI code of Color
 
-    Color (String uniCode)
+    /**
+     * creates a Color by input ANSI code
+     * @param ANSI_CODE ANSI code for color
+     */
+    Color (String ANSI_CODE)
     {
-        this.uniCode = uniCode;
+        this.ANSI_CODE = ANSI_CODE;
     }
 
+    /**
+     * @return ANSI code of Color
+     */
     public String getANSICode ()
     {
-        return uniCode;
+        return ANSI_CODE;
     }
 }

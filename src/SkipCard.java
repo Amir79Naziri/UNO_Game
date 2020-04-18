@@ -1,13 +1,23 @@
 import java.util.LinkedList;
 
+/**
+ * this class represents SkipCard
+ * this extends ColorCard
+ * @see ColorCard
+ * @author Amir Naziri
+ */
 public class SkipCard extends ColorCard
 {
+    /**
+     * create a new Skip card
+     * @param color color of card
+     */
     private SkipCard (Color color)
     {
         super(color);
     }
 
-
+    @Override
     public boolean canUse (GameHandler gameHandler)
     {
         if (gameHandler == null)
@@ -19,6 +29,7 @@ public class SkipCard extends ColorCard
         return gameHandler.getBoard ().getCardOnBoard () instanceof SkipCard;
     }
 
+    @Override
     public boolean use (GameHandler gameHandler, Color color)
     {
         if (!canUse (gameHandler))
@@ -34,8 +45,7 @@ public class SkipCard extends ColorCard
         return true;
     }
 
-
-
+    @Override
     public boolean equals (Object o)
     {
         if (!(super.equals (o))) return false;
@@ -43,7 +53,10 @@ public class SkipCard extends ColorCard
         return o instanceof SkipCard;
     }
 
-
+    /**
+     * this static method will produce 8 of this cards in 4 color
+     * @return list of cards
+     */
     public static LinkedList<Card> produceCards ()
     {
         LinkedList<Card> list = new LinkedList<> ();

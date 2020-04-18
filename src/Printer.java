@@ -1,22 +1,32 @@
-
 import java.util.*;
 
+/**
+ * this class will be used for printing anything on console for user
+ *
+ * @author Amir Naziri
+ */
 public class Printer
 {
-    private static int count = 0;
-
+    /**
+     * this will print massage for getting input from user
+     */
     public void printIndexGivingMassageFromPlayer ()
     {
         System.out.println ("Please Choose one" +
                 " Of Your cards ");
     }
 
+    /**
+     * this will pint no match card
+     */
     public void printNoMatchCard ()
     {
         System.out.println ("No Match Card!");
     }
 
-
+    /**
+     * this will show the colors list to choose one of them
+     */
     public void printColorGetterMassage ()
     {
         System.out.println ("please Choose a Color :\n" +
@@ -26,6 +36,10 @@ public class Printer
                 "4) " + Color.YELLOW.getANSICode () + '\u2B1B' + Color.RESET.getANSICode () + "\n");
     }
 
+    /**
+     * this will print all
+     * @param gameHandler game handler
+     */
     public void printAllSize (GameHandler gameHandler)
     {
         if (gameHandler == null)
@@ -34,7 +48,7 @@ public class Printer
         int counter = 1;
         for (Player player : gameHandler.getPlayers ())
         {
-            System.out.print ("Player " + counter + ":" + player.getCards ().size () + "   ");
+            System.out.print ("Player " + counter + ":" + player.getSizeOfCards () + "   ");
             if (counter == 11)
                 System.out.println ();
             counter++;
@@ -42,6 +56,10 @@ public class Printer
         System.out.println ();
     }
 
+    /**
+     * print the card on board
+     * @param gameHandler game handler
+     */
     public void printCardOnBoard (GameHandler gameHandler)
     {
 
@@ -51,7 +69,7 @@ public class Printer
         LinkedList<Card> cards = new LinkedList<> ();
         cards.add (gameHandler.getBoard ().getCardOnBoard ());
         printMaxSevenCard ("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t   ",cards,false,
-                "");
+                "",0);
         System.out.print ("\t\t\t\t\t\t\t\t\t\t\t\t\t\t" + "      Board color :");
         System.out.print ("  " + gameHandler.getBoard ().getColor ().getANSICode () + '\u2B1B' +
                 Color.RESET.getANSICode () + "  ");
@@ -59,6 +77,10 @@ public class Printer
         System.out.println ();
     }
 
+    /**
+     * print who is turn
+     * @param gameHandler game handler
+     */
     public void printTurn (GameHandler gameHandler)
     {
         if (gameHandler == null)
@@ -66,6 +88,10 @@ public class Printer
         System.out.print ("Player" + gameHandler.getTurn ().getWhoIsTurn () + "  turn      ");
     }
 
+    /**
+     * print the direction of game
+     * @param gameHandler game handler
+     */
     public void printDir (GameHandler gameHandler)
     {
         if (gameHandler == null)
@@ -73,6 +99,10 @@ public class Printer
         System.out.println (" DIR : " + gameHandler.getDir ().getDirection ().getUniCode ());
     }
 
+    /**
+     * print the final score table
+     * @param sortedPlayers list of players who sorted by their point less to most
+     */
     public void printEndTable (LinkedHashMap<String,Integer> sortedPlayers)
     {
         if (sortedPlayers == null)
@@ -87,12 +117,16 @@ public class Printer
         }
     }
 
+    /**
+     * prints the players card
+     * @param gameHandler game handler
+     */
     public void printCardsOfPlayer (GameHandler gameHandler)
     {
         System.out.println ("________________________________________________________________" +
                 "___________________________________________________________________" +
                 "________________");
-        count = 0;
+        int count = 0;
         if (gameHandler == null)
             return;
         LinkedList<Card> playerCards = gameHandler.getPlayerWhoIsTurn ().getCards ();
@@ -106,8 +140,9 @@ public class Printer
             {
                 cards.add (playerCards.get ((7 * i) + j));
             }
-            printMaxSevenCard ("",cards,true,gameHandler.getPlayerWhoIsTurn ()
-                    .getClass ().getName ());
+            count = printMaxSevenCard
+                    ("",cards,true,gameHandler.getPlayerWhoIsTurn ()
+                    .getClass ().getName (),count);
         }
         LinkedList<Card> secCards = new LinkedList<> ();
         for (int j = 0; j < notFullSeven; j++)
@@ -115,20 +150,31 @@ public class Printer
             secCards.add (playerCards.get ((7 * fullSeven) + j));
         }
         if (notFullSeven != 0)
-            printMaxSevenCard ("",secCards,true,gameHandler.getPlayerWhoIsTurn ()
-                    .getClass ().getName ());
+            printMaxSevenCard
+                    ("",secCards,true,gameHandler.getPlayerWhoIsTurn ()
+                    .getClass ().getName (),count);
         System.out.println ("________________________________________________________________" +
                 "___________________________________________________________________" +
                 "________________");
     }
 
-    private void printMaxSevenCard (String dis, LinkedList<Card> cards, boolean showNumber,
-                                     String playerType)
+    /**
+     * prints maximum 7 cards in a row
+     * @param dis beginner string for every line which use for printing cards in middle of
+     *            screen
+     * @param cards list of at  cards
+     * @param showNumber can show number under cards
+     * @param playerType player is human or machine
+     * @param count this will use for printing numbers under cards
+     * @return count
+     */
+    private int printMaxSevenCard (String dis, LinkedList<Card> cards, boolean showNumber,
+                                     String playerType, int count)
     {
         if (cards == null)
-            return;
+            return 0;
         if (cards.size () > 7)
-            return;
+            return 0;
 
         Color[] colors = new Color[cards.size ()];
         String[] type = new String[cards.size ()];
@@ -138,6 +184,7 @@ public class Printer
         }
         else
             findColorsAndType (type,colors,cards,1);
+
 
         StringBuilder shape = new StringBuilder ();
 
@@ -155,8 +202,14 @@ public class Printer
 
         System.out.print (shape.toString ());
         System.out.println ();
+        return count;
     }
 
+    /**
+     * add color to cards
+     * @param shape the base string for cards show
+     * @param color input color
+     */
     private void addColorToShape (StringBuilder shape, Color color)
     {
         if (color == null)
@@ -164,6 +217,14 @@ public class Printer
         shape.append (color.getANSICode ());
     }
 
+    /**
+     * add |$$$$$$$$$$| to card
+     * @param dis beginner string for every line which use for printing cards in middle of
+     *               screen
+     * @param shape the base string for cards show
+     * @param colors colors for every max 7 card
+     * @param size size of cards 0 < x <= 7 can be
+     */
     private void addHeaderToShape (String dis, StringBuilder shape, Color[] colors, int size)
     {
         for (int i = 0; i < size; i++)
@@ -175,6 +236,14 @@ public class Printer
         shape.append ("\n");
     }
 
+    /**
+     * add |          | to card
+     * @param dis beginner string for every line which use for printing cards in middle of
+     *                screen
+     * @param shape the base string for cards show
+     * @param colors colors for every max 7 card
+     * @param size size of cards 0 < x <= 7 can be
+     */
     private void addMiddleToShape (String dis, StringBuilder shape, Color[] colors, int size)
     {
         for (int i = 0; i < size; i++)
@@ -186,6 +255,15 @@ public class Printer
         shape.append ("\n");
     }
 
+    /**
+     * add |    typeOFCard   |  to card
+     * @param dis beginner string for every line which use for printing cards in middle of
+     *                screen
+     * @param shape the base string for cards show
+     * @param colors colors for every max 7 card
+     * @param size size of cards 0 < x <= 7 can be
+     * @param type list of players type
+     */
     private void addTypeToShape (String dis, StringBuilder shape, String[] type, Color[] colors
             , int size)
     {
@@ -198,6 +276,12 @@ public class Printer
         shape.append ("\n");
     }
 
+    /**
+     * this will prints a number down card
+     * @param shape the base string for cards show
+     * @param start start number
+     * @param finish finish number
+     */
     private void printNumberDownCard (StringBuilder shape, int start, int finish)
     {
 
@@ -208,6 +292,13 @@ public class Printer
         shape.append ("\n");
     }
 
+    /**
+     * this will find color and type for all cards
+     * @param type raw list of types
+     * @param colors raw list of colors
+     * @param cards list of cards
+     * @param key if key 1 : cards are visible   else cards are invisible
+     */
     private void findColorsAndType (String[] type, Color[] colors,LinkedList<Card> cards,
                                     int key)
     {

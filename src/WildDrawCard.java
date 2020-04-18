@@ -1,13 +1,20 @@
 import java.util.LinkedList;
 
-
-
+/**
+ * this class represent a wild Draw color card
+ * this extends wildCard
+ * @see WildCard
+ * @author Amir Naziri
+ */
 public class WildDrawCard extends WildCard
     implements DrawType
 {
+    /**
+     * creates a wild draw card
+     */
     private WildDrawCard () {}
 
-
+    @Override
     public boolean use (GameHandler gameHandler, Color color)
     {
         if (!super.canUse (gameHandler))
@@ -36,7 +43,7 @@ public class WildDrawCard extends WildCard
         return true;
     }
 
-
+    @Override
     public void giveCardToPlayer (GameHandler gameHandler)
     {
         if (gameHandler == null)
@@ -47,6 +54,7 @@ public class WildDrawCard extends WildCard
             gameHandler.getPlayerWhoIsTurn ().addCards (cards);
     }
 
+    @Override
     public boolean equals (Object o)
     {
         if (!(super.equals (o))) return false;
@@ -54,6 +62,10 @@ public class WildDrawCard extends WildCard
         return o instanceof WildDrawCard;
     }
 
+    /**
+     * this will create 4 of this cards
+     * @return list of cards
+     */
     public static LinkedList<Card> produceCards ()
     {
         LinkedList<Card> list = new LinkedList<> ();

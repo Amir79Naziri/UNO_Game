@@ -1,12 +1,23 @@
 import java.util.LinkedList;
 
+/**
+ * this class represents MachinePlayer
+ * this extends Player
+ * @see Player
+ * @author Amir Naziri
+ */
 public class MachinePlayer extends Player
 {
+    /**
+     * creates a nwe Machine Player
+     * @param cards list of Card
+     */
     public MachinePlayer (LinkedList<Card> cards)
     {
         super(cards);
     }
 
+    @Override
     public Card useCard (GameHandler gameHandler)
     {
         if (canUseWildCard (gameHandler))
@@ -33,7 +44,8 @@ public class MachinePlayer extends Player
         else
         {
             for (Card card : getCards ())
-                if (!(card instanceof NumericCard) && card.canUse (gameHandler))
+                if (!(card instanceof NumericCard) && !(card instanceof WildCard)
+                        && card.canUse (gameHandler))
                 {
                     if (isShouldUseDraw ())
                     {

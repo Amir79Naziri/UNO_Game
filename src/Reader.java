@@ -1,16 +1,28 @@
 import java.util.Random;
 import java.util.Scanner;
 
+/**
+ * this class is for reading from console
+ *
+ * @author Amir Naziri
+ */
 public class Reader
 {
-    private Scanner reader;
+    private Scanner reader; // reader
 
+    /**
+     * creates a new Reader
+     */
     public Reader ()
     {
         reader = new Scanner (System.in);
 
     }
 
+    /**
+     * get index of chosen card from console
+     * @return index of chosen card
+     */
     public int getIndexOfChosenCard ()
     {
         String line = reader.nextLine ();
@@ -21,6 +33,11 @@ public class Reader
         return index;
     }
 
+    /**
+     * get one of chosen color after a wild Card
+     * @param gameHandler game handler
+     * @return Color
+     */
     public Color getColor (GameHandler gameHandler)
     {
         if (gameHandler == null)
@@ -48,6 +65,11 @@ public class Reader
         }
     }
 
+    /**
+     * check if input is valid
+     * @param line input line
+     * @return result
+     */
     public static boolean isValidIndex (String line)
     {
         if (line == null)

@@ -1,17 +1,29 @@
 import java.util.LinkedHashMap;
 
+/**
+ * this class is for UserInterFace
+ *
+ * @author Amir Naziri
+ */
 public class UserInterface
 {
-    private Printer printer;
-    private Reader reader;
+    private Printer printer; // printer
+    private Reader reader; // reader
 
+    /**
+     * create a new User interface
+     */
     public UserInterface ()
     {
         printer = new Printer ();
         reader = new Reader ();
     }
 
-
+    /**
+     * print a game on console
+     * @param gameHandler game handler
+     * @param showTurn show who is turn
+     */
     public void printGame (GameHandler gameHandler, boolean showTurn)
     {
         if (gameHandler == null)
@@ -25,6 +37,11 @@ public class UserInterface
         printer.printDir (gameHandler);
     }
 
+    /**
+     * getting index of a card by user
+     * @param size total size of cards
+     * @return chose index
+     */
     public int getIndex (int size)
     {
 
@@ -36,6 +53,11 @@ public class UserInterface
             return index;
     }
 
+    /**
+     * choosing a color by user
+     * @param gameHandler game handler
+     * @return color which chose by user
+     */
     public Color getColor (GameHandler gameHandler)
     {
         if (gameHandler == null)
@@ -48,13 +70,18 @@ public class UserInterface
             return color;
     }
 
-
+    /**
+     * print no match on console
+     */
     public void printNoMatch ()
     {
         printer.printNoMatchCard ();
     }
 
-
+    /**
+     * prints a EndTable of Game
+     * @param sortedPlayers list of players which has been sorted by their points less to most
+     */
     public void printEndTable (LinkedHashMap<String,Integer> sortedPlayers)
     {
         printer.

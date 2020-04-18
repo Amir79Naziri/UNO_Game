@@ -2,16 +2,25 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedHashMap;
 
+/**
+ * this class is the central logic unit of Game
+ *
+ * @author Amir Naziri
+ */
 public class GameHandler
 {
-    private Turn turn;
-    private Player[] players;
-    private Storage storage;
-    private Board board;
-    private GameDirection dir;
-    private UserInterface userInterface;
-    private SequenceKeeper sequenceKeeper;
+    private Turn turn; // turn in game
+    private Player[] players;// players in game
+    private Storage storage; // Storage in game
+    private Board board; // board in game
+    private GameDirection dir; // direction in game
+    private UserInterface userInterface; //userInterface
+    private SequenceKeeper sequenceKeeper; // sequence keeper
 
+    /**
+     * creates a new Game handler
+     * @param numOfPlayer number of Players
+     */
     public GameHandler (int numOfPlayer)
     {
         turn = Turn.getInstance (numOfPlayer);
@@ -23,46 +32,75 @@ public class GameHandler
         sequenceKeeper = new SequenceKeeper ();
     }
 
+    /**
+     * @return number of Players
+     */
     public int getNumOfPlayer () {
         return players.length;
     }
 
+    /**
+     * @return user interface in game
+     */
     public UserInterface getUserInterface () {
         return userInterface;
     }
 
+    /**
+     * @return board
+     */
     public Board getBoard () {
         return board;
     }
 
+    /**
+     * @return Storage
+     */
     public Storage getStorage () {
         return storage;
     }
 
+    /**
+     * @return direction of Game
+     */
     public GameDirection getDir () {
         return dir;
     }
 
+    /**
+     * @return players
+     */
     public Player[] getPlayers () {
         return players;
     }
 
+    /**
+     * @return turn
+     */
     public Turn getTurn () {
         return turn;
     }
 
+    /**
+     * @return sequenceKeeper
+     */
     public SequenceKeeper getSequenceKeeper () {
         return sequenceKeeper;
     }
 
-
+    /**
+     * @return player who is in turn
+     */
     public Player getPlayerWhoIsTurn ()
     {
         int index = turn.getWhoIsTurn () - 1;
         return players[index];
     }
 
-
+    /**
+     * by this method card on board will act at starting game for move cards
+     * @throws InterruptedException some wasting time
+     */
     public void boardCardUse () throws InterruptedException
     {
         if (!(getBoard ().getCardOnBoard () instanceof NumericCard))
@@ -83,24 +121,37 @@ public class GameHandler
         }
     }
 
-
+    /**
+     * player will give a card
+     * @return card
+     * @throws InterruptedException some wasting time
+     */
     public Card playerGetCard () throws InterruptedException {
         if (getPlayerWhoIsTurn () instanceof MachinePlayer)
             Thread.sleep (3000);
-        return getPlayerWhoIsTurn ().useCard (this);
+        return getPlayerWhoIsTurn ().useCard (this); // get card from player
     }
 
-
+    /**
+     * chosen card will act
+     * @param card card which player gave
+     */
     public void useCard (Card card)
     {
         if (card instanceof WildCard)
         {
             card.use (this,getUserInterface ().getColor (this));
+            // use wild card
         }
         else
             card.use (this,Color.NON_COLOR);
+        // use normal card
     }
 
+    /**
+     * this method will produce sorted map of player and their scores
+     * @return map of player and their scores
+     */
     public LinkedHashMap<String,Integer> findSortedListOfPlayers ()
     {
         ArrayList<Integer> points = new ArrayList<> ();
@@ -109,7 +160,7 @@ public class GameHandler
             player.calculatePoints ();
             points.add (player.getPoint ());
         }
-        Collections.sort (points);
+        Collections.sort (points); // sort points
 
         LinkedHashMap<String,Integer> sortedPlayers = new LinkedHashMap<> ();
 

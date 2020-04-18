@@ -1,5 +1,10 @@
 import java.util.Scanner;
 
+/**
+ * this class is for running the game
+ *
+ * @author Amir Naziri
+ */
 public class Run
 {
     public static void main (String[] args) throws InterruptedException {
@@ -15,7 +20,7 @@ public class Run
         }
         int choose = Integer.parseInt (line);
 
-        if (choose == 1)
+        if (choose == 1) // one player game
         {
             System.out.println ("1) 3 player\n" +
                     "2) 4 Player\n" +
@@ -36,7 +41,7 @@ public class Run
             game.play ();
             return;
         }
-        if (choose == 2)
+        if (choose == 2) // two player game
         {
             System.out.println ("Enter Number Of Players between  2 and 14");
             String line3 = new Scanner (System.in).nextLine ();

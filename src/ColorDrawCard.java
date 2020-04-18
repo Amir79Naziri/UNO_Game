@@ -1,16 +1,25 @@
 import java.util.LinkedList;
 
-
+/**
+ * this class represents colorDraw (Draw 2+) card
+ * this extends Color card
+ * @see ColorCard
+ * @author Amir Naziri
+ */
 public class ColorDrawCard extends ColorCard
     implements DrawType
 
 {
+    /**
+     * creates a new ColorDrawCard
+     * @param color color of Card
+     */
     private ColorDrawCard (Color color)
     {
         super(color);
     }
 
-
+    @Override
     public boolean canUse (GameHandler gameHandler)
     {
         if (gameHandler == null)
@@ -22,6 +31,7 @@ public class ColorDrawCard extends ColorCard
         return gameHandler.getBoard ().getCardOnBoard () instanceof ColorDrawCard;
     }
 
+    @Override
     public boolean use (GameHandler gameHandler, Color color)
     {
         if (!canUse (gameHandler))
@@ -33,7 +43,8 @@ public class ColorDrawCard extends ColorCard
         }
 
         updateTurn (gameHandler,1);
-        if (!(gameHandler.getPlayerWhoIsTurn ().hasColorDraw ()))
+        if (!(gameHandler.getPlayerWhoIsTurn ().hasColorDraw ())) // this is for checking rule
+                                                                  // of Draw cards
         {
             giveCardToPlayer (gameHandler);
             gameHandler.getSequenceKeeper ().finishSeqND ();
@@ -47,7 +58,7 @@ public class ColorDrawCard extends ColorCard
         return true;
     }
 
-
+    @Override
     public void giveCardToPlayer (GameHandler gameHandler)
     {
         LinkedList<Card> cards;
@@ -56,11 +67,14 @@ public class ColorDrawCard extends ColorCard
 
         cards = gameHandler.getStorage ().
                 CardsForPlayer (gameHandler.getSequenceKeeper ().getSeqND () * 2);
+        // give new cards to list of cards
 
         if (cards != null)
             gameHandler.getPlayerWhoIsTurn ().addCards (cards);
+        // give list to player
     }
 
+    @Override
     public boolean equals (Object o)
     {
         if (!(super.equals (o))) return false;
@@ -68,6 +82,10 @@ public class ColorDrawCard extends ColorCard
         return o instanceof ColorDrawCard;
     }
 
+    /**
+     * this static method creates cards for game : 8 of this card with 4 colors
+     * @return list of cards
+     */
     public static LinkedList<Card> produceCards ()
     {
         LinkedList<Card> list = new LinkedList<> ();

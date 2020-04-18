@@ -1,12 +1,23 @@
+/**
+ * this class is for holding Direction of Game
+ *
+ * @author Amir Naziri
+ */
 public class GameDirection
 {
-    private Direction dir;
+    private Direction dir; // direction of Game
 
+    /**
+     * creates a new gameDirection
+     */
     public GameDirection ()
     {
         dir = Direction.CLOCKWISE;
     }
 
+    /**
+     * change Direction of Game :  cw --> ccw  or  ccw --> cw
+     */
     public void changeDirection ()
     {
         if (dir == Direction.CLOCKWISE)
@@ -15,6 +26,9 @@ public class GameDirection
             dir = Direction.CLOCKWISE;
     }
 
+    /**
+     * @return direction of Game
+     */
     public Direction getDirection () {
         return dir;
     }

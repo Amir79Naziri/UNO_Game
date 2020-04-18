@@ -1,13 +1,20 @@
 import java.util.LinkedList;
 import java.util.Random;
 
+/**
+ * this class is the Storage of game which keep a total cards in it
+ *
+ * @author Amir Naziri
+ */
 public class Storage
 {
-    private static Storage storage = null;
-    private LinkedList<Card> cards;
-    private LinkedList<Card> colorCards;
+    private static Storage storage = null; // instance of Storage
+    private LinkedList<Card> cards; // list of all cards
+    private LinkedList<Card> colorCards; // list of color cards from total list
 
-
+    /**
+     * creates a new Storage
+     */
     private Storage ()
     {
         cards = new LinkedList<> ();
@@ -18,6 +25,10 @@ public class Storage
         colorCards.addAll (ColorCard.produceCards ());
     }
 
+    /**
+     * add a card to the Storage
+     * @param card card
+     */
     public void addCard (Card card)
     {
         cards.add (card);
@@ -25,6 +36,10 @@ public class Storage
             colorCards.add (card);
     }
 
+    /**
+     * this static method will create a instance of Storage
+     * @return Storage instance
+     */
     public static Storage getInstanceStorage ()
     {
         if (storage == null)
@@ -32,12 +47,19 @@ public class Storage
         return storage;
     }
 
+    /**
+     * @return sizeOfStorage
+     */
     public int getSize ()
     {
         return cards.size ();
     }
 
-
+    /**
+     * this will returns a list af cards for player
+     * @param number limit size for list of cards
+     * @return list of cards
+     */
     public LinkedList<Card> CardsForPlayer (int number)
     {
         if (number > getSize ())
@@ -54,6 +76,10 @@ public class Storage
         return playersCards;
     }
 
+    /**
+     * this will gives a ColorCard to board for start
+     * @return card
+     */
     public Card CardForBoard ()
     {
         if (colorCards.size () < 1)
