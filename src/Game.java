@@ -56,6 +56,7 @@ public abstract class Game
         {
             if (player.getCards ().size () == 0) // if a player has 0 cards the game should stop
             {
+                gameHandler.getUserInterface ().printGame (gameHandler,false);
                 System.out.println ("\n\n\n\n");
                 System.err.println ("                   player" + counter + " won " +
                         "                   \n");
